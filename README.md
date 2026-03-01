@@ -1,36 +1,81 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# ArsitekPro Konstruksi - MVP Website
 
-## Getting Started
+MVP website marketing + lead capture untuk jasa kontraktor dan renovasi bangunan skala menengah.
 
-First, run the development server:
+## Tech Stack
+- Next.js (App Router)
+- TypeScript
+- Tailwind CSS
+- Zod
+- Lucide React
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## Menjalankan Project
+1. Install dependency:
+   ```bash
+   npm install
+   ```
+2. Jalankan mode development:
+   ```bash
+   npm run dev
+   ```
+3. Build production:
+   ```bash
+   npm run build
+   ```
+4. Jalankan production server:
+   ```bash
+   npm run start
+   ```
+
+## Struktur Folder Penting
+```text
+src/
+  app/
+    page.tsx
+    layanan/page.tsx
+    portofolio/page.tsx
+    portofolio/[slug]/page.tsx
+    harga/page.tsx
+    tentang/page.tsx
+    faq/page.tsx
+    kontak/page.tsx
+    kebijakan-privasi/page.tsx
+    api/leads/route.ts
+    sitemap.xml/route.ts
+    robots.txt/route.ts
+  components/
+  data/
+  lib/
+  types/
+public/images/
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Lokasi Ubah Konten
+- Layanan: `src/data/services.ts`
+- Portofolio: `src/data/projects.ts`
+- Testimoni: `src/data/testimonials.ts`
+- FAQ: `src/data/faq.ts`
+- Paket harga: `src/data/pricing.ts`
+- Branding/nomor WA/kota layanan: `src/lib/constants.ts`
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Lead Capture Flow
+- Form kontak (`/kontak`) validasi client + server.
+- Draft form disimpan ke `localStorage` key `leads_draft`.
+- Submit mengirim `POST /api/leads`.
+- API menyimpan data sementara di in-memory array (reset saat server restart).
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Supabase Status
+Supabase sudah disiapkan pada `src/lib/supabaseClient.ts` dan env vars di `.env.example`, tetapi **belum dipakai** dalam fitur mana pun.
 
-## Learn More
+## SEO Dasar
+- Metadata root + OpenGraph
+- JSON-LD LocalBusiness di homepage
+- `sitemap.xml` dinamis dari routes + slug portofolio
+- `robots.txt`
 
-To learn more about Next.js, take a look at the following resources:
+## Next Steps (Belum Diimplementasikan)
+1. Integrasi Supabase untuk penyimpanan leads permanen.
+2. Tambah CMS untuk manajemen konten layanan/portofolio/testimoni.
+3. Bangun admin panel sederhana untuk melihat dan memproses leads.
+4. Tambah analytics & event tracking (CTA klik, submit rate, conversion).
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
