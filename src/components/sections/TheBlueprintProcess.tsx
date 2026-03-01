@@ -1,9 +1,64 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
+import gsap from "gsap";
 
 export function TheBlueprintProcess() {
     const [area, setArea] = useState(120);
+    const [activeStep, setActiveStep] = useState<number | null>(null);
+    const contentRef = useRef<HTMLDivElement>(null);
+
+    const [projectType, setProjectType] = useState("Residential Renovation");
+    const [isProjectTypeOpen, setIsProjectTypeOpen] = useState(false);
+    const projectTypeRef = useRef<HTMLDivElement>(null);
+
+    const [finishGrade, setFinishGrade] = useState("Premium");
+    const [isFinishGradeOpen, setIsFinishGradeOpen] = useState(false);
+    const finishGradeRef = useRef<HTMLDivElement>(null);
+
+    const projectTypes = ["Residential Renovation", "New Build", "Commercial Fit-out"];
+    const finishGrades = ["Premium", "Standard", "Luxury Bespoke"];
+
+    useEffect(() => {
+        function handleClickOutside(event: MouseEvent) {
+            if (projectTypeRef.current && !projectTypeRef.current.contains(event.target as Node)) {
+                setIsProjectTypeOpen(false);
+            }
+            if (finishGradeRef.current && !finishGradeRef.current.contains(event.target as Node)) {
+                setIsFinishGradeOpen(false);
+            }
+        }
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, []);
+
+    const handleStepClick = (step: number) => {
+        setActiveStep(activeStep === step ? null : step);
+    };
+
+    useEffect(() => {
+        if (!contentRef.current) return;
+
+        if (activeStep !== null) {
+            const activeChild = contentRef.current.children[activeStep - 1] as HTMLElement;
+            if (activeChild) {
+                const targetHeight = activeChild.offsetHeight;
+                gsap.to(contentRef.current, {
+                    height: targetHeight,
+                    duration: 0.4,
+                    ease: "power2.out"
+                });
+            }
+        } else {
+            gsap.to(contentRef.current, {
+                height: 0,
+                duration: 0.4,
+                ease: "power2.inOut"
+            });
+        }
+    }, [activeStep]);
 
     // Calculate a roughly estimated price per sqm based on standard/premium config
     const baseRate = 3.5; // per sqm in juta
@@ -13,7 +68,7 @@ export function TheBlueprintProcess() {
     return (
         <>
             {/* The Blueprint (Process) */}
-            <section id="blueprint" className="py-24 bg-canvas dark:bg-slate-900 overflow-hidden">
+            <section id="blueprint" className="pt-24 pb-4 md:py-24 bg-canvas dark:bg-slate-900 overflow-hidden">
                 <div className="max-w-[1440px] mx-auto px-6 md:px-12">
                     <div className="text-center mb-16">
                         <span className="text-gold text-sm font-bold uppercase tracking-widest mb-2 block">Our Methodology</span>
@@ -70,118 +125,164 @@ export function TheBlueprintProcess() {
                         </div>
                     </div>
 
-                    {/* Mobile Process List */}
-                    <div className="md:hidden flex flex-col gap-6">
-                        <div className="flex items-start gap-4">
-                            <div className="w-10 h-10 rounded-full bg-slate-900 text-gold flex-shrink-0 flex items-center justify-center font-bold">1</div>
-                            <div>
-                                <h4 className="font-display text-lg font-medium text-slate-900 dark:text-white">Consultation</h4>
-                                <p className="text-sm text-slate-500 mt-1 dark:text-slate-400">We listen to your vision, assess the site, and define the project scope.</p>
-                            </div>
+                    {/* Mobile Process List - Interactive */}
+                    <div className="md:hidden">
+                        <div className="relative flex justify-between items-center mb-6 px-4">
+                            {/* Connector Line */}
+                            <div className="absolute left-0 right-0 h-[2px] bg-slate-200 dark:bg-slate-700 top-1/2 -translate-y-1/2 z-0 mx-8"></div>
+
+                            {[1, 2, 3, 4].map((step) => (
+                                <div key={step} className="relative z-10" onClick={() => handleStepClick(step)}>
+                                    <div className={`w-12 h-12 rounded-full flex items-center justify-center font-bold border-4 transition-all duration-300 cursor-pointer shadow-md ${activeStep === step
+                                        ? 'bg-gold text-slate-900 border-white scale-110'
+                                        : 'bg-white text-slate-900 border-slate-200 dark:bg-slate-800 dark:text-white dark:border-slate-700'
+                                        }`}>
+                                        {step}
+                                    </div>
+                                </div>
+                            ))}
                         </div>
-                        <div className="flex items-start gap-4">
-                            <div className="w-10 h-10 rounded-full bg-white border border-slate-200 text-slate-900 flex-shrink-0 flex items-center justify-center font-bold">2</div>
-                            <div>
-                                <h4 className="font-display text-lg font-medium text-slate-900 dark:text-white">Design</h4>
-                                <p className="text-sm text-slate-500 mt-1 dark:text-slate-400">Architectural drafting, 3D visualization, and material selection.</p>
-                            </div>
-                        </div>
-                        <div className="flex items-start gap-4">
-                            <div className="w-10 h-10 rounded-full bg-white border border-slate-200 text-slate-900 flex-shrink-0 flex items-center justify-center font-bold">3</div>
-                            <div>
-                                <h4 className="font-display text-lg font-medium text-slate-900 dark:text-white">Build</h4>
-                                <p className="text-sm text-slate-500 mt-1 dark:text-slate-400">Execution by master craftsmen with weekly progress reports.</p>
-                            </div>
-                        </div>
-                        <div className="flex items-start gap-4">
-                            <div className="w-10 h-10 rounded-full bg-white border border-slate-200 text-slate-900 flex-shrink-0 flex items-center justify-center font-bold">4</div>
-                            <div>
-                                <h4 className="font-display text-lg font-medium text-slate-900 dark:text-white">Handover</h4>
-                                <p className="text-sm text-slate-500 mt-1 dark:text-slate-400">Final inspection, key handover, and post-construction support.</p>
-                            </div>
+
+                        {/* Active Step Content */}
+                        <div ref={contentRef} className="relative w-full text-center overflow-visible" style={{ height: 0 }}>
+                            {[1, 2, 3, 4].map((step, index) => {
+                                const titles = ["Consultation", "Design", "Build", "Handover"];
+                                const descs = [
+                                    "We listen to your vision, assess the site, and define the project scope.",
+                                    "Architectural drafting, 3D visualization, and material selection.",
+                                    "Execution by master craftsmen with weekly progress reports.",
+                                    "Final inspection, key handover, and post-construction support."
+                                ];
+                                return (
+                                    <div
+                                        key={step}
+                                        className={`absolute inset-x-0 top-0 transition-all duration-500 ease-in-out px-4 pb-4 ${activeStep === step
+                                            ? 'opacity-100 translate-y-0 pointer-events-auto'
+                                            : 'opacity-0 -translate-y-4 pointer-events-none'
+                                            }`}
+                                    >
+                                        <h4 className="font-display text-2xl font-medium text-slate-900 dark:text-white mb-3">{titles[index]}</h4>
+                                        <p className="text-base text-slate-600 dark:text-slate-400 leading-relaxed">{descs[index]}</p>
+                                    </div>
+                                );
+                            })}
                         </div>
                     </div>
                 </div>
             </section>
 
             {/* Pricing Calculator */}
-            <section className="relative z-10 px-6 lg:px-8 pb-24 bg-canvas dark:bg-slate-900 pt-12">
-                <div className="mx-auto max-w-5xl rounded-xl bg-surface p-8 shadow-elevated ring-1 ring-slate-900/5 dark:bg-slate-800 dark:ring-white/10 lg:p-12 mb-20">
-                    <div className="grid grid-cols-1 gap-x-12 gap-y-10 lg:grid-cols-2">
-                        {/* Left: Inputs */}
-                        <div className="flex flex-col gap-8">
-                            <div>
-                                <div className="flex items-center justify-between mb-4">
-                                    <label className="block text-sm font-semibold uppercase tracking-wider text-slate-900 dark:text-white" htmlFor="area-slider">Area Size</label>
-                                    <span className="font-display text-2xl font-medium text-slate-900 dark:text-primary">{area} m²</span>
-                                </div>
-                                <div className="relative h-6 w-full flex items-center">
-                                    <div className="absolute w-full h-1 bg-slate-200 rounded-full dark:bg-slate-700"></div>
-                                    <div className="absolute h-1 bg-primary rounded-full transition-all duration-150" style={{ width: `${((area - 50) / 450) * 100}%` }}></div>
-                                    <input
-                                        className="absolute w-full h-6 opacity-0 cursor-pointer z-10"
-                                        id="area-slider"
-                                        max="500"
-                                        min="50"
-                                        type="range"
-                                        value={area}
-                                        onChange={(e) => setArea(parseInt(e.target.value))}
-                                    />
-                                    <div className="absolute h-6 w-6 rounded-full bg-slate-900 border-2 border-primary shadow-md pointer-events-none transition-all duration-150" style={{ left: `${((area - 50) / 450) * 100}%`, transform: 'translateX(-50%)' }}></div>
-                                </div>
-                                <div className="flex justify-between mt-2 text-xs text-slate-500 dark:text-slate-400 font-medium">
-                                    <span>50 m²</span>
-                                    <span>500 m²</span>
-                                </div>
-                            </div>
-                            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
-                                <div className="relative">
-                                    <label className="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-2 dark:text-slate-400" htmlFor="project-type">Project Type</label>
-                                    <div className="relative">
-                                        <select className="block w-full appearance-none rounded border border-slate-200 bg-slate-50 py-3 px-4 pr-10 text-slate-900 focus:border-primary focus:bg-white focus:outline-none focus:ring-1 focus:ring-primary dark:bg-slate-800 dark:border-slate-700 dark:text-white sm:text-sm" id="project-type">
-                                            <option>Residential Renovation</option>
-                                            <option>New Build</option>
-                                            <option>Commercial Fit-out</option>
-                                            <option>Industrial</option>
-                                        </select>
-                                        <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-slate-500">
-                                            <span className="material-symbols-outlined">expand_more</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="relative">
-                                    <label className="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-2 dark:text-slate-400" htmlFor="finish-grade">Finish Grade</label>
-                                    <div className="relative">
-                                        <select className="block w-full appearance-none rounded border border-slate-200 bg-slate-50 py-3 px-4 pr-10 text-slate-900 focus:border-primary focus:bg-white focus:outline-none focus:ring-1 focus:ring-primary dark:bg-slate-800 dark:border-slate-700 dark:text-white sm:text-sm" id="finish-grade" defaultValue="Premium">
-                                            <option>Standard</option>
-                                            <option value="Premium">Premium</option>
-                                            <option>Luxury Bespoke</option>
-                                        </select>
-                                        <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-slate-500">
-                                            <span className="material-symbols-outlined">expand_more</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+            <section className="relative z-10 px-6 lg:px-8 pb-24 bg-canvas dark:bg-slate-900 pt-0 md:pt-12">
+                <div className="mx-auto max-w-lg rounded-xl bg-surface p-6 shadow-elevated ring-1 ring-slate-900/5 dark:bg-slate-800 dark:ring-white/10 mb-20 border border-slate-100 dark:border-slate-800">
+                    <div className="mb-8">
+                        <div className="flex justify-between items-end mb-4">
+                            <label className="text-xs font-bold tracking-wider uppercase text-slate-500 dark:text-slate-400">Area Size</label>
+                            <span className="font-display text-2xl font-bold text-slate-900 dark:text-white">{area} m²</span>
                         </div>
+                        <div className="relative h-6 w-full flex items-center">
+                            <div className="absolute w-full h-2 bg-slate-200 rounded-full dark:bg-slate-700"></div>
+                            <div className="absolute h-2 bg-primary rounded-full transition-all duration-150" style={{ width: `${((area - 50) / 450) * 100}%` }}></div>
+                            <input
+                                className="absolute w-full h-6 opacity-0 cursor-pointer z-10"
+                                id="area-slider"
+                                max="500"
+                                min="50"
+                                type="range"
+                                value={area}
+                                onChange={(e) => setArea(parseInt(e.target.value))}
+                            />
+                            <div className="absolute h-6 w-6 rounded-full bg-slate-900 border-2 border-primary shadow-md pointer-events-none transition-all duration-150" style={{ left: `${((area - 50) / 450) * 100}%`, transform: 'translateX(-50%)', marginTop: '-1px' }}></div>
+                        </div>
+                        <div className="flex justify-between mt-2 text-xs text-slate-500 dark:text-slate-400 font-medium">
+                            <span>50 m²</span>
+                            <span>500 m²</span>
+                        </div>
+                    </div>
 
-                        {/* Right: Output */}
-                        <div className="flex flex-col justify-center rounded-lg bg-slate-50 p-8 text-center dark:bg-slate-900 lg:p-10 border border-slate-100 dark:border-slate-800">
-                            <p className="mb-2 text-sm font-semibold uppercase tracking-widest text-slate-500 dark:text-slate-400">Estimated Project Investment</p>
-                            <div className="my-4 flex items-baseline justify-center gap-1">
-                                <span className="font-display text-4xl font-bold text-slate-900 dark:text-white sm:text-5xl">IDR {estimatedMin}</span>
-                                <span className="text-xl font-medium text-slate-500 dark:text-slate-400">jt</span>
-                                <span className="mx-2 text-3xl font-light text-slate-300">-</span>
-                                <span className="font-display text-4xl font-bold text-slate-900 dark:text-white sm:text-5xl">{estimatedMax}</span>
-                                <span className="text-xl font-medium text-slate-500 dark:text-slate-400">jt</span>
+                    <div className="grid grid-cols-1 gap-4 mb-8">
+                        <div>
+                            <label className="block text-xs font-bold tracking-wider uppercase text-slate-500 dark:text-slate-400 mb-2" id="project-type-label">Project Type</label>
+                            <div className="relative" ref={projectTypeRef}>
+                                <div
+                                    className={`w-full bg-slate-50 dark:bg-slate-800 border ${isProjectTypeOpen ? 'border-primary ring-1 ring-primary' : 'border-slate-200 dark:border-slate-700'} text-slate-900 dark:text-white py-3 px-4 rounded text-sm cursor-pointer flex justify-between items-center transition-all`}
+                                    onClick={() => setIsProjectTypeOpen(!isProjectTypeOpen)}
+                                    aria-labelledby="project-type-label"
+                                    role="button"
+                                    tabIndex={0}
+                                >
+                                    <span>{projectType}</span>
+                                    <span className={`material-symbols-outlined text-sm text-slate-500 transition-transform duration-300 ${isProjectTypeOpen ? 'rotate-180' : ''}`}>expand_more</span>
+                                </div>
+                                <div
+                                    className={`absolute z-50 w-full mt-2 grid transition-all duration-300 ease-in-out origin-top ${isProjectTypeOpen ? 'grid-rows-[1fr] opacity-100 scale-y-100' : 'grid-rows-[0fr] opacity-0 scale-y-95 pointer-events-none'}`}
+                                >
+                                    <div className="overflow-hidden">
+                                        <div className="bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded shadow-lg">
+                                            {projectTypes.map((type) => (
+                                                <div
+                                                    key={type}
+                                                    className={`py-3 px-4 text-sm cursor-pointer transition-colors ${projectType === type ? 'bg-slate-200 dark:bg-slate-700 text-slate-900 dark:text-white font-medium' : 'text-slate-900 dark:text-white hover:bg-slate-100 dark:hover:bg-slate-700/50'}`}
+                                                    onClick={() => {
+                                                        setProjectType(type);
+                                                        setIsProjectTypeOpen(false);
+                                                    }}
+                                                >
+                                                    {type}
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            <p className="text-sm text-slate-500 dark:text-slate-400 italic">
-                                *Estimate only. Subject to detailed site survey and material selection.
-                            </p>
-                            <button className="mt-8 w-full rounded bg-primary py-3.5 px-4 text-sm font-bold uppercase tracking-wide text-slate-900 shadow-lg shadow-primary/20 hover:bg-[#d9ac1b] transition-all">
-                                Save Estimate
-                            </button>
                         </div>
+                        <div>
+                            <label className="block text-xs font-bold tracking-wider uppercase text-slate-500 dark:text-slate-400 mb-2" id="finish-grade-label">Finish Grade</label>
+                            <div className="relative" ref={finishGradeRef}>
+                                <div
+                                    className={`w-full bg-slate-50 dark:bg-slate-800 border ${isFinishGradeOpen ? 'border-primary ring-1 ring-primary' : 'border-slate-200 dark:border-slate-700'} text-slate-900 dark:text-white py-3 px-4 rounded text-sm cursor-pointer flex justify-between items-center transition-all`}
+                                    onClick={() => setIsFinishGradeOpen(!isFinishGradeOpen)}
+                                    aria-labelledby="finish-grade-label"
+                                    role="button"
+                                    tabIndex={0}
+                                >
+                                    <span>{finishGrade}</span>
+                                    <span className={`material-symbols-outlined text-sm text-slate-500 transition-transform duration-300 ${isFinishGradeOpen ? 'rotate-180' : ''}`}>expand_more</span>
+                                </div>
+                                <div
+                                    className={`absolute z-50 w-full mt-2 grid transition-all duration-300 ease-in-out origin-top ${isFinishGradeOpen ? 'grid-rows-[1fr] opacity-100 scale-y-100' : 'grid-rows-[0fr] opacity-0 scale-y-95 pointer-events-none'}`}
+                                >
+                                    <div className="overflow-hidden">
+                                        <div className="bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded shadow-lg">
+                                            {finishGrades.map((grade) => (
+                                                <div
+                                                    key={grade}
+                                                    className={`py-3 px-4 text-sm cursor-pointer transition-colors ${finishGrade === grade ? 'bg-slate-200 dark:bg-slate-700 text-slate-900 dark:text-white font-medium' : 'text-slate-900 dark:text-white hover:bg-slate-100 dark:hover:bg-slate-700/50'}`}
+                                                    onClick={() => {
+                                                        setFinishGrade(grade);
+                                                        setIsFinishGradeOpen(false);
+                                                    }}
+                                                >
+                                                    {grade}
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="bg-slate-50 dark:bg-slate-800/50 rounded-lg p-6 text-center border border-slate-100 dark:border-slate-700">
+                        <p className="text-xs font-bold tracking-wider uppercase text-slate-500 dark:text-slate-400 mb-3">Estimated Project Investment</p>
+                        <div className="font-display text-3xl font-bold text-slate-900 dark:text-white mb-2">
+                            IDR {estimatedMin} <span className="text-lg font-normal text-slate-500">jt</span> - {estimatedMax} <span className="text-lg font-normal text-slate-500">jt</span>
+                        </div>
+                        <p className="text-[10px] text-slate-500 dark:text-slate-400 italic mb-6">
+                            *Estimate only. Subject to detailed site survey and material selection.
+                        </p>
+                        <button className="w-full bg-primary text-slate-900 font-bold py-3 px-4 rounded shadow-sm hover:bg-[#d9ac1b] transition-colors uppercase text-sm tracking-wide">
+                            Save Estimate
+                        </button>
                     </div>
                 </div>
 

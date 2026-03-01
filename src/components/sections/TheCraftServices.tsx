@@ -2,11 +2,11 @@ import Link from "next/link";
 
 export function TheCraftServices() {
     return (
-        <section id="craft" className="py-24 bg-surface dark:bg-background-dark">
+        <section id="craft" className="pt-24 pb-8 md:pb-24 bg-surface dark:bg-background-dark">
             <div className="max-w-[1440px] mx-auto px-6 md:px-12">
 
                 {/* Page Title */}
-                <div className="max-w-4xl mx-auto text-center mb-16 md:mb-24">
+                <div className="max-w-4xl mx-auto text-center mb-8 md:mb-24">
                     <p className="text-primary text-sm font-bold tracking-[0.2em] uppercase mb-4">Our Services</p>
                     <h2 className="font-display text-5xl md:text-7xl text-slate-900 dark:text-slate-100 mb-6 font-semibold">The Craft</h2>
                     <div className="h-px w-24 bg-primary mx-auto mb-8"></div>
@@ -16,7 +16,7 @@ export function TheCraftServices() {
                 </div>
 
                 {/* Service Block 1: Renovation */}
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 py-16 items-center group">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 pt-4 pb-16 md:py-16 items-center group">
                     {/* Image Left */}
                     <div className="relative overflow-hidden rounded-sm aspect-[3/4] lg:aspect-[4/5] order-1">
                         <div className="absolute inset-0 bg-slate-900/10 group-hover:bg-slate-900/0 transition-colors duration-500 z-10"></div>
@@ -67,14 +67,14 @@ export function TheCraftServices() {
                 </div>
 
                 {/* Divider */}
-                <div className="flex items-center justify-center py-8 opacity-40">
+                <div className="flex items-center justify-center py-4 md:py-8 opacity-40">
                     <div className="h-px w-full max-w-[200px] bg-slate-300 dark:bg-slate-700"></div>
                     <div className="rotate-45 size-2 bg-primary mx-4"></div>
                     <div className="h-px w-full max-w-[200px] bg-slate-300 dark:bg-slate-700"></div>
                 </div>
 
                 {/* Service Block 2: New Builds */}
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 py-16 items-center group">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 pt-4 pb-16 md:py-16 items-center group">
                     {/* Content Left (Order changes on Desktop) */}
                     <div className="flex flex-col gap-8 order-2 lg:order-1">
                         <div className="flex flex-col gap-4">
@@ -125,14 +125,14 @@ export function TheCraftServices() {
                 </div>
 
                 {/* Divider */}
-                <div className="flex items-center justify-center py-8 opacity-40">
+                <div className="flex items-center justify-center py-4 md:py-8 opacity-40">
                     <div className="h-px w-full max-w-[200px] bg-slate-300 dark:bg-slate-700"></div>
                     <div className="rotate-45 size-2 bg-primary mx-4"></div>
                     <div className="h-px w-full max-w-[200px] bg-slate-300 dark:bg-slate-700"></div>
                 </div>
 
                 {/* Service Block 3: Interior Fit-out */}
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 py-16 items-center group">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 pt-4 pb-8 md:py-16 items-center group">
                     {/* Image Left */}
                     <div className="relative overflow-hidden rounded-sm aspect-[3/4] lg:aspect-[4/5] order-1">
                         <div className="absolute inset-0 bg-slate-900/10 group-hover:bg-slate-900/0 transition-colors duration-500 z-10"></div>

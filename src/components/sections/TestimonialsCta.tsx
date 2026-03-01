@@ -26,20 +26,33 @@ export function TestimonialsCta() {
                 </div>
             </section>
 
-            {/* CTA / Concierge */}
-            <section className="py-24 bg-white dark:bg-background-dark border-t border-slate-100 dark:border-white/10">
-                <div className="max-w-3xl mx-auto px-6 text-center">
-                    <h2 className="font-display text-4xl md:text-5xl font-semibold text-slate-900 dark:text-white mb-6">Ready to Build Your Vision?</h2>
-                    <p className="text-slate-500 dark:text-slate-400 text-lg mb-10 leading-relaxed">
-                        Whether you have a full set of blueprints or just a rough idea, our concierge team is ready to guide you through the next steps.
-                    </p>
-                    <div className="flex flex-col sm:flex-row justify-center gap-4">
-                        <button className="bg-gold hover:bg-[#c5a02e] text-slate-900 px-10 py-4 rounded font-bold text-sm tracking-widest uppercase transition-colors shadow-lg shadow-gold/20">
-                            Request Consultation
-                        </button>
-                        <button className="bg-slate-100 hover:bg-slate-200 text-slate-900 dark:bg-slate-900 dark:text-white dark:hover:bg-slate-800 px-10 py-4 rounded font-bold text-sm tracking-widest uppercase transition-colors border border-transparent dark:border-white/20">
-                            Calculate Estimate
-                        </button>
+            {/* Legacy CTA */}
+            <section className="py-24 bg-white dark:bg-background-dark border-t border-slate-100 dark:border-white/10 px-4 md:px-6">
+                <div className="max-w-[500px] md:max-w-4xl mx-auto">
+                    <div className="bg-slate-900 rounded-2xl p-8 md:p-12 relative overflow-hidden flex flex-col justify-center shadow-lg w-full mx-auto items-center text-center">
+                        {/* Glow effect matching gold text */}
+                        <div className="absolute -top-32 -right-32 w-64 md:w-96 h-64 md:h-96 bg-[#c5a02e] opacity-30 md:opacity-20 blur-[80px] md:blur-[100px] rounded-full pointer-events-none"></div>
+
+                        <div className="relative z-10 flex flex-col items-center w-full">
+                            <span className="text-gold text-[10px] md:text-xs font-bold tracking-[0.2em] uppercase mb-4">Start Your Journey</span>
+
+                            <h3 className="text-white font-display text-3xl md:text-5xl mb-6 font-medium leading-tight max-w-[280px] md:max-w-none">
+                                Ready to build your <br className="md:hidden" /><em className="text-gold font-serif italic font-normal">legacy?</em>
+                            </h3>
+
+                            <p className="text-slate-300 text-sm md:text-base mb-10 max-w-xs md:max-w-lg leading-relaxed font-light">
+                                Whether it's a renovation or a ground-up build, our team is ready to bring your vision to life with precision and care.
+                            </p>
+
+                            <div className="flex flex-col md:flex-row w-full gap-3 md:justify-center md:max-w-md">
+                                <button className="bg-gold hover:bg-[#c5a02e] text-white px-8 py-3.5 rounded font-bold text-sm transition-colors shadow-sm w-full">
+                                    Book Consultation
+                                </button>
+                                <button className="bg-[#1e293b] hover:bg-[#334155] border border-slate-700 text-white px-8 py-3.5 rounded font-bold text-sm transition-colors w-full">
+                                    Contact Us
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </section>

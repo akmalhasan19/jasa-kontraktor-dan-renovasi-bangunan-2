@@ -12,7 +12,7 @@ export function WhatsAppFloatingButton() {
       href={href}
       target="_blank"
       rel="noreferrer"
-      className="fixed bottom-4 right-4 z-40 inline-flex items-center gap-2 rounded-full bg-emerald-500 px-4 py-3 text-sm font-semibold text-white shadow-lg transition hover:bg-emerald-600 md:bottom-6 md:right-6"
+      className="fixed bottom-4 right-4 z-40 inline-flex items-center gap-2 rounded-full bg-emerald-500 px-4 py-3 text-sm font-semibold text-white shadow-lg transition hover:bg-emerald-600 md:hidden"
       aria-label="Chat WhatsApp"
     >
       <MessageCircle className="h-4 w-4" />
