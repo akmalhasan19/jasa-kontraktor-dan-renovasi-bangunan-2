@@ -2,7 +2,7 @@ export function TestimonialsCta() {
     return (
         <>
             {/* Testimonials */}
-            <section className="py-24 bg-slate-100 dark:bg-slate-900 relative overflow-hidden flex flex-col items-center justify-center">
+            <section className="pt-6 pb-24 md:py-24 bg-slate-100 dark:bg-slate-900 relative overflow-hidden flex flex-col items-center justify-center">
                 <div className="absolute top-10 left-10 md:left-1/4 text-slate-200 dark:text-slate-800 select-none pointer-events-none">
                     <span className="font-display text-[15rem] leading-none opacity-50">“</span>
                 </div>

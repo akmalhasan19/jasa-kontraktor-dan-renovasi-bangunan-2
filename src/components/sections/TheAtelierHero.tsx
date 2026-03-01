@@ -42,26 +42,28 @@ export function TheAtelierHero() {
             {/* Trust Indicators */}
             <section className="py-20 bg-canvas border-b border-slate-200">
                 <div className="max-w-[1440px] mx-auto px-6 md:px-12">
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12">
-                        <div className="flex flex-col items-center md:items-start text-center md:text-left group">
-                            <span className="material-symbols-outlined text-4xl text-gold mb-4 group-hover:scale-110 transition-transform">apartment</span>
-                            <h3 className="font-display text-4xl font-bold text-slate-900 mb-1">150+</h3>
-                            <p className="text-sm text-slate-500 uppercase tracking-wider font-medium">Projects Completed</p>
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-y-12 gap-x-4 md:gap-12 justify-center items-center">
+                        <div className="flex flex-col items-center text-center group">
+                            <span className="material-symbols-outlined text-[32px] text-gold mb-4 group-hover:scale-110 transition-transform drop-shadow-sm">domain</span>
+                            <h3 className="font-display text-3xl md:text-4xl font-bold text-slate-900 mb-2 flex items-start">
+                                150<span className="text-base text-slate-400 font-normal ml-0.5 mt-[-4px]">+</span>
+                            </h3>
+                            <p className="text-[10px] md:text-xs text-slate-500 uppercase tracking-widest font-bold">Projects Completed</p>
                         </div>
-                        <div className="flex flex-col items-center md:items-start text-center md:text-left group">
-                            <span className="material-symbols-outlined text-4xl text-gold mb-4 group-hover:scale-110 transition-transform">history_edu</span>
-                            <h3 className="font-display text-4xl font-bold text-slate-900 mb-1">10</h3>
-                            <p className="text-sm text-slate-500 uppercase tracking-wider font-medium">Years Experience</p>
+                        <div className="flex flex-col items-center text-center group">
+                            <span className="material-symbols-outlined text-[32px] text-gold mb-4 group-hover:scale-110 transition-transform drop-shadow-sm">engineering</span>
+                            <h3 className="font-display text-3xl md:text-4xl font-bold text-slate-900 mb-2">10</h3>
+                            <p className="text-[10px] md:text-xs text-slate-500 uppercase tracking-widest font-bold">Years Experience</p>
                         </div>
-                        <div className="flex flex-col items-center md:items-start text-center md:text-left group">
-                            <span className="material-symbols-outlined text-4xl text-gold mb-4 group-hover:scale-110 transition-transform">verified</span>
-                            <h3 className="font-display text-4xl font-bold text-slate-900 mb-1">ISO 9001</h3>
-                            <p className="text-sm text-slate-500 uppercase tracking-wider font-medium">Certified Excellence</p>
+                        <div className="flex flex-col items-center text-center group">
+                            <span className="material-symbols-outlined text-[32px] text-gold mb-4 group-hover:scale-110 transition-transform drop-shadow-sm">workspace_premium</span>
+                            <h3 className="font-display text-3xl md:text-4xl font-bold text-slate-900 mb-2">ISO</h3>
+                            <p className="text-[10px] md:text-xs text-slate-500 uppercase tracking-widest font-bold">9001 Certified</p>
                         </div>
-                        <div className="flex flex-col items-center md:items-start text-center md:text-left group">
-                            <span className="material-symbols-outlined text-4xl text-gold mb-4 group-hover:scale-110 transition-transform">timer_off</span>
-                            <h3 className="font-display text-4xl font-bold text-slate-900 mb-1">0</h3>
-                            <p className="text-sm text-slate-500 uppercase tracking-wider font-medium">Days Delay (Avg)</p>
+                        <div className="flex flex-col items-center text-center group">
+                            <span className="material-symbols-outlined text-[32px] text-gold mb-4 group-hover:scale-110 transition-transform drop-shadow-sm">schedule</span>
+                            <h3 className="font-display text-3xl md:text-4xl font-bold text-slate-900 mb-2">0</h3>
+                            <p className="text-[10px] md:text-xs text-slate-500 uppercase tracking-widest font-bold">Days Delay (Avg)</p>
                         </div>
                     </div>
                 </div>

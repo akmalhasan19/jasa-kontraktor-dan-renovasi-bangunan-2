@@ -2,7 +2,7 @@ import Link from 'next/link';
 
 export function TheGalleryPortfolio() {
     return (
-        <section id="gallery" className="pt-8 pb-24 md:pt-24 bg-surface dark:bg-background-dark">
+        <section id="gallery" className="pt-8 pb-12 md:pt-24 md:pb-24 bg-surface dark:bg-background-dark scroll-mt-24">
             <div className="max-w-[1440px] mx-auto px-6 md:px-12">
                 {/* Header */}
                 <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-8 md:mb-12">

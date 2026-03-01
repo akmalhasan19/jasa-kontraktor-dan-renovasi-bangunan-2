@@ -68,7 +68,7 @@ export function TheBlueprintProcess() {
     return (
         <>
             {/* The Blueprint (Process) */}
-            <section id="blueprint" className="pt-24 pb-4 md:py-24 bg-canvas dark:bg-slate-900 overflow-hidden">
+            <section id="blueprint" className="pt-12 pb-4 md:pt-24 md:py-24 bg-canvas dark:bg-slate-900 overflow-hidden">
                 <div className="max-w-[1440px] mx-auto px-6 md:px-12">
                     <div className="text-center mb-16">
                         <span className="text-gold text-sm font-bold uppercase tracking-widest mb-2 block">Our Methodology</span>

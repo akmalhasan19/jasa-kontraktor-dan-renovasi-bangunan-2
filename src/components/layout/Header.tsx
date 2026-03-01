@@ -1,12 +1,14 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { Menu, X } from "lucide-react";
+import gsap from "gsap";
 
 export function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const menuRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -16,6 +18,29 @@ export function Header() {
     handleScroll();
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  // GSAP Animation for Mobile Menu
+  useEffect(() => {
+    if (menuRef.current) {
+      if (isMobileMenuOpen) {
+        gsap.to(menuRef.current, {
+          autoAlpha: 1,
+          y: 0,
+          display: "flex",
+          duration: 0.4,
+          ease: "power3.out"
+        });
+      } else {
+        gsap.to(menuRef.current, {
+          autoAlpha: 0,
+          y: -20,
+          display: "none",
+          duration: 0.3,
+          ease: "power3.in"
+        });
+      }
+    }
+  }, [isMobileMenuOpen]);
 
   const navClasses = isScrolled ? "scrolled-nav" : "transparent-nav";
 
@@ -48,17 +73,19 @@ export function Header() {
       </div>
 
       {/* Mobile Menu */}
-      {isMobileMenuOpen && (
-        <div className="md:hidden absolute top-full left-0 right-0 bg-white border-t border-slate-200 shadow-lg py-4 px-6 flex flex-col gap-4">
-          <Link href="#atelier" onClick={() => setIsMobileMenuOpen(false)} className="text-slate-900 text-sm font-medium uppercase tracking-[0.15em] hover:text-gold transition-colors">The Atelier</Link>
-          <Link href="#craft" onClick={() => setIsMobileMenuOpen(false)} className="text-slate-900 text-sm font-medium uppercase tracking-[0.15em] hover:text-gold transition-colors">The Craft</Link>
-          <Link href="#gallery" onClick={() => setIsMobileMenuOpen(false)} className="text-slate-900 text-sm font-medium uppercase tracking-[0.15em] hover:text-gold transition-colors">The Gallery</Link>
-          <Link href="#blueprint" onClick={() => setIsMobileMenuOpen(false)} className="text-slate-900 text-sm font-medium uppercase tracking-[0.15em] hover:text-gold transition-colors">The Blueprint</Link>
-          <button className="w-full bg-gold hover:bg-[#c5a02e] text-slate-900 px-6 py-3 rounded font-bold text-sm tracking-wide transition-colors mt-2">
-            Book Consultation
-          </button>
-        </div>
-      )}
+      <div
+        ref={menuRef}
+        className="md:hidden absolute top-full left-0 right-0 bg-white border-t border-slate-200 shadow-lg py-4 px-6 flex-col gap-4 opacity-0 hidden"
+        style={{ transform: "translateY(-20px)" }}
+      >
+        <Link href="#atelier" onClick={() => setIsMobileMenuOpen(false)} className="text-slate-900 text-sm font-medium uppercase tracking-[0.15em] hover:text-gold transition-colors">The Atelier</Link>
+        <Link href="#craft" onClick={() => setIsMobileMenuOpen(false)} className="text-slate-900 text-sm font-medium uppercase tracking-[0.15em] hover:text-gold transition-colors">The Craft</Link>
+        <Link href="#gallery" onClick={() => setIsMobileMenuOpen(false)} className="text-slate-900 text-sm font-medium uppercase tracking-[0.15em] hover:text-gold transition-colors">The Gallery</Link>
+        <Link href="#blueprint" onClick={() => setIsMobileMenuOpen(false)} className="text-slate-900 text-sm font-medium uppercase tracking-[0.15em] hover:text-gold transition-colors">The Blueprint</Link>
+        <button className="w-full bg-gold hover:bg-[#c5a02e] text-slate-900 px-6 py-3 rounded font-bold text-sm tracking-wide transition-colors mt-2">
+          Book Consultation
+        </button>
+      </div>
     </nav>
   );
 }
