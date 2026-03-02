@@ -1,10 +1,76 @@
+"use client";
+
+import { useRef } from 'react';
 import Link from 'next/link';
+import gsap from 'gsap';
+import { useGSAP } from '@gsap/react';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 import { TypingText } from "@/components/ui/TypingText";
 
+gsap.registerPlugin(useGSAP, ScrollTrigger);
+
 export function TheGalleryPortfolio() {
+    const sectionRef = useRef<HTMLElement>(null);
+
+    useGSAP(() => {
+        let mm = gsap.matchMedia();
+
+        mm.add("(min-width: 768px)", () => {
+            const tl = gsap.timeline({
+                scrollTrigger: {
+                    trigger: sectionRef.current,
+                    start: "top -170px",
+                    end: "+=1500",
+                    scrub: 1,
+                    pin: true,
+                    anticipatePin: 1
+                }
+            });
+
+            // Project 1 (Left) - flies in from left
+            tl.fromTo('.project-left',
+                { x: '-100vw', opacity: 0 },
+                { x: 0, opacity: 1, ease: 'power2.out' },
+                0
+            )
+                // Project 2 (Middle) - flies in from top (behind navbar/padding)
+                .fromTo('.project-top',
+                    { y: '-100vh', opacity: 0 },
+                    { y: 0, opacity: 1, ease: 'power2.out' },
+                    0
+                )
+                // Project 3 (Right) - flies in from right
+                .fromTo('.project-right',
+                    { x: '100vw', opacity: 0 },
+                    { x: 0, opacity: 1, ease: 'power2.out' },
+                    0
+                );
+
+            // Regular fade up for remaining projects (triggered when scrolling down after unpin)
+            const otherItems = gsap.utils.toArray('.gallery-other-item');
+            otherItems.forEach((item: any) => {
+                gsap.fromTo(item,
+                    { opacity: 0, y: 50 },
+                    {
+                        opacity: 1,
+                        y: 0,
+                        duration: 1,
+                        ease: "power3.out",
+                        scrollTrigger: {
+                            trigger: item,
+                            start: "top 85%",
+                        }
+                    }
+                );
+            });
+        });
+
+        return () => mm.revert();
+    }, { scope: sectionRef });
+
     return (
-        <section id="gallery" className="pt-8 pb-12 md:pt-24 md:pb-24 bg-surface dark:bg-background-dark scroll-mt-24">
+        <section id="gallery" ref={sectionRef} className="pt-8 pb-12 md:pt-24 md:pb-24 bg-surface dark:bg-background-dark scroll-mt-24 overflow-hidden relative">
             <div className="max-w-[1440px] mx-auto px-6 md:px-12">
                 {/* Header */}
                 <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-8 md:mb-12">
@@ -46,7 +112,7 @@ export function TheGalleryPortfolio() {
                 {/* Masonry-like Grid */}
                 <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 auto-rows-[minmax(100px,_auto)]">
                     {/* Project 1 */}
-                    <div className="col-span-2 lg:col-span-2 relative group rounded-xl overflow-hidden shadow-sm aspect-[4/3] lg:aspect-[16/9] cursor-pointer">
+                    <div className="project-left col-span-2 lg:col-span-2 relative group rounded-xl overflow-hidden shadow-sm aspect-[4/3] lg:aspect-[16/9] cursor-pointer">
                         <img alt="Modern concrete villa with pool" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBmeERG5avMMlziUG-iIbnIT9-AP4HYRqnJuDR9VkbvdxQ3Kr3d6yHbk8LwXd5q2Oi0WwLgRbmjuMuhcUZayI2sD6BWbQg4FLOb6KGpjZKMqkmIPFwUThoO4jkdi5Go8s6JzYGg9G8KyTOpl4wZN-Ljig_lA4HT5tuYGHNRAolLckNac3nLbGJkAMLx9mjamStz44PjuW0uqFW5l188wC8MztqJqk6Qa2Kt0yiKyE7de0w0nD4zmlmVMzv_oyn6c_K0yd5BzIzo2CU" />
                         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-90"></div>
                         <div className="absolute bottom-0 left-0 p-5 md:p-8">
@@ -56,7 +122,7 @@ export function TheGalleryPortfolio() {
                     </div>
 
                     {/* Project 2 */}
-                    <div className="col-span-1 lg:col-span-1 relative group rounded-xl overflow-hidden shadow-sm aspect-[3/4] lg:aspect-auto lg:h-full cursor-pointer">
+                    <div className="project-top col-span-1 lg:col-span-1 relative group rounded-xl overflow-hidden shadow-sm aspect-[3/4] lg:aspect-auto lg:h-full cursor-pointer">
                         <img alt="Minimalist interior living room" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBXcQQuVutxJ8cxQzRp2qfaMP4ULIAVojq2hJzWYfX95fKUg9_HgN45ROVJZom5G6Ts66-KxQQ0rsstv5FtPwo8lEOKx2FStGe7JUI1n3S_JgJTgYPNz-iR7QH0YPMwexuIzqCwlJtu827_bvgYSqdyFP-BBprNvEvGlf7nqjlzivuUx-G8Nx9SKbeP50wLxjO9AQJZp-Vwwha5LEoRE6o75L8Ln6gUwhdT7LDZM-l0KjCmNbFLnMS-vk9H1BWQY-Mt0aZ_b8ltM38" />
                         <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-90"></div>
                         <div className="absolute bottom-0 left-0 p-4">
@@ -65,7 +131,7 @@ export function TheGalleryPortfolio() {
                     </div>
 
                     {/* Project 3 */}
-                    <div className="col-span-1 lg:col-span-1 relative group rounded-xl overflow-hidden shadow-sm aspect-[3/4] lg:aspect-auto lg:h-full cursor-pointer">
+                    <div className="project-right col-span-1 lg:col-span-1 relative group rounded-xl overflow-hidden shadow-sm aspect-[3/4] lg:aspect-auto lg:h-full cursor-pointer">
                         <img alt="Modern exterior facade" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBUkmpto_GnPyG3lgF-NGdExtb2jEuV71GKnl6bOZuk3gKe9YgUHL9z7NvCRvOj0XbUPykGUkbq64YmA0KN71NUo43h6lpfhjv0EGb_1md83z2IHUgzAwqKd02Ptqtr3XCukBviLL_7w9cBVad11O9PuURFRoQRVMzE-eP_KUcKKjzqJKb-K8Y2QRrFvyyxAThuTgyZ1_fJBf1EbjpZBH_TqFkLpOmBxeysMZIHGryH5s5j0yvbwbq8KLOH0GCpzsdQEmE6-NSIPdA" />
                         <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-90"></div>
                         <div className="absolute bottom-0 left-0 p-4">
@@ -74,7 +140,7 @@ export function TheGalleryPortfolio() {
                     </div>
 
                     {/* Promotional Banner */}
-                    <div className="col-span-2 lg:col-span-2 bg-slate-900 border border-slate-800 rounded-xl p-6 relative overflow-hidden my-2 md:my-0 flex flex-col justify-center shadow-sm">
+                    <div className="gallery-other-item col-span-2 lg:col-span-2 bg-slate-900 border border-slate-800 rounded-xl p-6 relative overflow-hidden my-2 md:my-0 flex flex-col justify-center shadow-sm">
                         <span className="material-symbols-outlined absolute right-[-20px] top-[-20px] text-[150px] text-white/5 pointer-events-none">architecture</span>
                         <div className="relative z-10 flex flex-col items-start">
                             <h3 className="text-white font-display text-xl md:text-3xl mb-2">Start Your Legacy</h3>
@@ -87,7 +153,7 @@ export function TheGalleryPortfolio() {
                     </div>
 
                     {/* Project 4 */}
-                    <div className="col-span-1 lg:col-span-1 relative group rounded-xl overflow-hidden shadow-sm aspect-square lg:aspect-auto lg:h-full cursor-pointer">
+                    <div className="gallery-other-item col-span-1 lg:col-span-1 relative group rounded-xl overflow-hidden shadow-sm aspect-square lg:aspect-auto lg:h-full cursor-pointer">
                         <img alt="Luxury bathroom interior" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBFh7LKOeTBHMnHDHTj4eQHdVnKNiRubTIY3eyajjlfMDkMkxU8xWn2Ikd5wvU_2QBR_w0spsDl0B2s4k8H70l1uYgkz0g1zco94x8xcFaYiGke1bUNBB3pIe5KyR8F_xYEXC-dFmqjnf4FgFNjSt6vPwwaD1HEuVs0Lu1s-AW_Nd7mn7KI1aFXxQSsfTV2iMZN1Bxsni1vJ-X_mw8GD3Pl8INo0x-9kCBmjc-NPlL085617GiNe_BHPinJClDPjNdISYJt5t3gwdc" />
                         <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-90"></div>
                         <div className="absolute bottom-0 left-0 p-4">
@@ -96,7 +162,7 @@ export function TheGalleryPortfolio() {
                     </div>
 
                     {/* Project 5 */}
-                    <div className="col-span-1 lg:col-span-1 relative group rounded-xl overflow-hidden shadow-sm aspect-square lg:aspect-auto lg:h-full cursor-pointer">
+                    <div className="gallery-other-item col-span-1 lg:col-span-1 relative group rounded-xl overflow-hidden shadow-sm aspect-square lg:aspect-auto lg:h-full cursor-pointer">
                         <img alt="Corporate office interior" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuATWJRomU3FKnd7BpBjV4C81LodLlly3qLuow2gYIkWiHAEucyTet7UqAMJN4fQf0wjyIOO7RyjRl0ukdkDAxeJkQPT2Jq4zHmzpp1nt767gV4D13fxvhchsSyy_4LvmifQoze-P7aTcqWM66C4PmW07kCrLapIc_BeHmwJ3-fdBLhMptoLnJVYGr1O07bpHaRKuOfgmZ7kjYbdbldyk3UerAnE0RQldW3KyE4-q0gw9YN49YNcnGMalDirAIqr_K5Tkmt6grmlqfc" />
                         <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-90"></div>
                         <div className="absolute bottom-0 left-0 p-4">
@@ -105,7 +171,7 @@ export function TheGalleryPortfolio() {
                     </div>
 
                     {/* Project 6 */}
-                    <div className="col-span-2 lg:col-span-2 xl:col-span-4 relative group rounded-xl overflow-hidden shadow-sm aspect-[16/9] lg:aspect-[21/9] cursor-pointer">
+                    <div className="gallery-other-item col-span-2 lg:col-span-2 xl:col-span-4 relative group rounded-xl overflow-hidden shadow-sm aspect-[16/9] lg:aspect-[21/9] cursor-pointer">
                         <img alt="Modern bedroom interior" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDVEVAWr-mkKyuxuiYNbl4jMlHCEQwdT6BrtEbLwxF0nvGG0gI1Hxt1O-Jwgd1pPiAPgP79gzoBap-wRnRygKSkOXkA7nAwv2JBbFAhQCKV45Ke5wdpayiQFOimljtIwAfWek3DIgpPmiWGHK5FwsCFNhKp42fbCya9e0Emaat2upqFFpn4omfmlIJ9N_usGHHssxsCqxiSxoZ2IxfgkUWHEu6_UqH2mWiD_AE1ftGXiSl7ZrDj9Sht0Eht0RpWLbDlmKKhcUI-6hE" />
                         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-90"></div>
                         <div className="absolute bottom-0 left-0 p-5 md:p-8">
