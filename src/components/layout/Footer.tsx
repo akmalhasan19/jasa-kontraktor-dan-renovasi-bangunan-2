@@ -20,7 +20,7 @@ export function Footer() {
         <div className="flex gap-6 md:gap-8 mb-8 text-xs uppercase tracking-widest font-bold text-slate-300">
           <Link href="#" className="hover:text-white transition-colors">Privacy</Link>
           <Link href="#" className="hover:text-white transition-colors">Terms</Link>
-          <Link href="#contact" className="hover:text-white transition-colors">Contact</Link>
+          <Link href="/contact" className="hover:text-white transition-colors">Contact</Link>
         </div>
 
         {/* Copyright */}

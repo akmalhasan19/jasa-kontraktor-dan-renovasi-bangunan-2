@@ -1,3 +1,6 @@
+import { TypingText } from "@/components/ui/TypingText";
+import Link from "next/link";
+
 export function TestimonialsCta() {
     return (
         <>
@@ -40,17 +43,21 @@ export function TestimonialsCta() {
                                 Ready to build your <br className="md:hidden" /><em className="text-gold font-serif italic font-normal">legacy?</em>
                             </h3>
 
-                            <p className="text-slate-300 text-sm md:text-base mb-10 max-w-xs md:max-w-lg leading-relaxed font-light">
-                                Whether it's a renovation or a ground-up build, our team is ready to bring your vision to life with precision and care.
-                            </p>
+                            <TypingText
+                                className="text-slate-300 text-sm md:text-base mb-10 max-w-xs md:max-w-lg leading-relaxed font-light min-h-[40px] md:min-h-[48px]"
+                                text={`Whether it's a renovation or a ground-up build, our team is ready to bring your vision to life with precision and care.`}
+                            />
 
                             <div className="flex flex-col md:flex-row w-full gap-3 md:justify-center md:max-w-md">
                                 <button className="bg-gold hover:bg-[#c5a02e] text-white px-8 py-3.5 rounded font-bold text-sm transition-colors shadow-sm w-full">
                                     Book Consultation
                                 </button>
-                                <button className="bg-[#1e293b] hover:bg-[#334155] border border-slate-700 text-white px-8 py-3.5 rounded font-bold text-sm transition-colors w-full">
+                                <Link
+                                    href="/contact"
+                                    className="bg-[#1e293b] hover:bg-[#334155] border border-slate-700 text-white px-8 py-3.5 rounded font-bold text-sm transition-colors w-full text-center flex items-center justify-center"
+                                >
                                     Contact Us
-                                </button>
+                                </Link>
                             </div>
                         </div>
                     </div>

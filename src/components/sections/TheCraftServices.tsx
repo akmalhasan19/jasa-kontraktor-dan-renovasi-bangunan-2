@@ -1,5 +1,8 @@
 import Link from "next/link";
 
+import { TypingText } from "@/components/ui/TypingText";
+import { GradientText } from "@/components/ui/GradientText";
+
 export function TheCraftServices() {
     return (
         <section id="craft" className="pt-24 pb-8 md:pb-24 bg-surface dark:bg-background-dark">
@@ -7,12 +10,13 @@ export function TheCraftServices() {
 
                 {/* Page Title */}
                 <div className="max-w-4xl mx-auto text-center mb-8 md:mb-24">
-                    <p className="text-primary text-sm font-bold tracking-[0.2em] uppercase mb-4">Our Services</p>
-                    <h2 className="font-display text-5xl md:text-7xl text-slate-900 dark:text-slate-100 mb-6 font-semibold">The Craft</h2>
+                    <GradientText as="p" className="text-primary text-sm font-bold tracking-[0.2em] uppercase mb-4" text="Our Services" />
+                    <GradientText as="h2" className="font-display text-5xl md:text-7xl text-slate-900 dark:text-slate-100 mb-6 font-semibold" text="The Craft" />
                     <div className="h-px w-24 bg-primary mx-auto mb-8"></div>
-                    <p className="text-slate-500 dark:text-slate-400 text-lg md:text-xl leading-relaxed max-w-2xl mx-auto font-light">
-                        Precision in every detail, from foundation to finish. We build not just structures, but legacies in concrete and light.
-                    </p>
+                    <TypingText
+                        className="text-slate-500 dark:text-slate-400 text-lg md:text-xl leading-relaxed max-w-2xl mx-auto font-light min-h-[56px] md:min-h-[60px]"
+                        text="Precision in every detail, from foundation to finish. We build not just structures, but legacies in concrete and light."
+                    />
                 </div>
 
                 {/* Service Block 1: Renovation */}
@@ -26,10 +30,8 @@ export function TheCraftServices() {
                     {/* Content Right */}
                     <div className="flex flex-col gap-8 order-2">
                         <div className="flex flex-col gap-4">
-                            <span className="text-primary text-xs font-bold tracking-[0.15em] uppercase">01 — Revival</span>
-                            <h3 className="font-display text-4xl md:text-5xl text-slate-900 dark:text-slate-100 leading-tight">
-                                Renovation &amp; Remodeling
-                            </h3>
+                            <GradientText as="span" className="text-primary text-xs font-bold tracking-[0.15em] uppercase block" text="01 — Revival" />
+                            <GradientText as="h3" className="font-display text-4xl md:text-5xl text-slate-900 dark:text-slate-100 leading-tight" text="Renovation & Remodeling" />
                             <p className="text-slate-500 dark:text-slate-400 text-base md:text-lg leading-relaxed font-light mt-2">
                                 We breathe new life into existing structures, respecting their history while infusing modern functionality. Our renovation process is meticulous, focusing on structural integrity and aesthetic transformation.
                             </p>
@@ -39,22 +41,22 @@ export function TheCraftServices() {
                             <li className="flex items-start gap-3">
                                 <span className="material-symbols-outlined text-primary text-lg mt-0.5">check_circle</span>
                                 <div>
-                                    <strong className="block text-slate-900 dark:text-slate-100 text-sm font-bold tracking-wide uppercase">Structural Reinforcement</strong>
-                                    <span className="text-slate-500 dark:text-slate-400 text-sm">Ensuring safety and longevity for decades to come.</span>
+                                    <GradientText as="strong" className="block text-slate-900 dark:text-slate-100 text-sm font-bold tracking-wide uppercase" text="Structural Reinforcement" />
+                                    <GradientText as="span" className="text-slate-500 dark:text-slate-400 text-sm block" text="Ensuring safety and longevity for decades to come." delay={0.1} />
                                 </div>
                             </li>
                             <li className="flex items-start gap-3">
                                 <span className="material-symbols-outlined text-primary text-lg mt-0.5">check_circle</span>
                                 <div>
-                                    <strong className="block text-slate-900 dark:text-slate-100 text-sm font-bold tracking-wide uppercase">MEP Systems Overhaul</strong>
-                                    <span className="text-slate-500 dark:text-slate-400 text-sm">Modernizing electrical and plumbing for efficiency.</span>
+                                    <GradientText as="strong" className="block text-slate-900 dark:text-slate-100 text-sm font-bold tracking-wide uppercase" text="MEP Systems Overhaul" />
+                                    <GradientText as="span" className="text-slate-500 dark:text-slate-400 text-sm block" text="Modernizing electrical and plumbing for efficiency." delay={0.1} />
                                 </div>
                             </li>
                             <li className="flex items-start gap-3">
                                 <span className="material-symbols-outlined text-primary text-lg mt-0.5">check_circle</span>
                                 <div>
-                                    <strong className="block text-slate-900 dark:text-slate-100 text-sm font-bold tracking-wide uppercase">Premium Finishing</strong>
-                                    <span className="text-slate-500 dark:text-slate-400 text-sm">Sourcing high-end marble, woods, and fixtures.</span>
+                                    <GradientText as="strong" className="block text-slate-900 dark:text-slate-100 text-sm font-bold tracking-wide uppercase" text="Premium Finishing" />
+                                    <GradientText as="span" className="text-slate-500 dark:text-slate-400 text-sm block" text="Sourcing high-end marble, woods, and fixtures." delay={0.1} />
                                 </div>
                             </li>
                         </ul>

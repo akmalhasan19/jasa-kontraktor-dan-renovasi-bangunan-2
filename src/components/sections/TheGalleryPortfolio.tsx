@@ -1,5 +1,7 @@
 import Link from 'next/link';
 
+import { TypingText } from "@/components/ui/TypingText";
+
 export function TheGalleryPortfolio() {
     return (
         <section id="gallery" className="pt-8 pb-12 md:pt-24 md:pb-24 bg-surface dark:bg-background-dark scroll-mt-24">
@@ -10,9 +12,10 @@ export function TheGalleryPortfolio() {
                         <h2 className="font-display text-4xl md:text-5xl font-medium mb-3 text-slate-900 dark:text-white">
                             Selected Works
                         </h2>
-                        <p className="text-slate-600 dark:text-slate-400 text-sm md:text-base leading-relaxed max-w-sm md:max-w-xl">
-                            A curated selection of our finest architectural and interior masterpieces. Explore the intersection of precision and artistry.
-                        </p>
+                        <TypingText
+                            className="text-slate-600 dark:text-slate-400 text-sm md:text-base leading-relaxed max-w-sm md:max-w-xl min-h-[40px] md:min-h-[48px]"
+                            text="A curated selection of our finest architectural and interior masterpieces. Explore the intersection of precision and artistry."
+                        />
                     </div>
                     <Link className="hidden md:inline-flex px-6 py-3 border border-slate-200 dark:border-slate-800 text-slate-900 dark:text-white rounded font-bold text-sm tracking-wide hover:bg-slate-900 hover:text-white dark:hover:bg-white dark:hover:text-slate-900 transition-colors whitespace-nowrap" href="#">
                         View Full Portfolio
@@ -76,8 +79,9 @@ export function TheGalleryPortfolio() {
                         <div className="relative z-10 flex flex-col items-start">
                             <h3 className="text-white font-display text-xl md:text-3xl mb-2">Start Your Legacy</h3>
                             <p className="text-slate-300 text-sm md:text-base mb-6 max-w-[80%]">Ready to build something extraordinary? Let&apos;s discuss your vision.</p>
-                            <Link href="#contact" className="flex items-center gap-2 text-primary hover:text-white transition-colors text-sm font-bold uppercase tracking-wide">
-                                Get a Quote <span className="material-symbols-outlined text-base">arrow_forward</span>
+                            <Link href="/contact" className="flex items-center gap-2 text-primary hover:text-white transition-colors text-sm font-bold uppercase tracking-wide">
+                                Start a Project
+                                <span className="material-symbols-outlined text-sm">arrow_forward</span>
                             </Link>
                         </div>
                     </div>

@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import gsap from "gsap";
+import { TypingText } from "@/components/ui/TypingText";
 
 export function TheBlueprintProcess() {
     const [area, setArea] = useState(120);
@@ -73,6 +74,10 @@ export function TheBlueprintProcess() {
                     <div className="text-center mb-16">
                         <span className="text-gold text-sm font-bold uppercase tracking-widest mb-2 block">Our Methodology</span>
                         <h2 className="font-display text-4xl md:text-5xl font-semibold text-slate-900 dark:text-white">The Blueprint</h2>
+                        <TypingText
+                            className="mt-4 text-slate-600 dark:text-slate-400 min-h-[24px]"
+                            text="Explore the process of crafting your vision into reality."
+                        />
                     </div>
 
                     {/* Stepper Component */}
@@ -290,7 +295,10 @@ export function TheBlueprintProcess() {
                 <div className="mx-auto max-w-7xl pt-12">
                     <div className="text-center mb-16">
                         <h3 className="font-display text-3xl font-semibold text-slate-900 dark:text-white">Service Packages</h3>
-                        <p className="mt-4 text-slate-600 dark:text-slate-400">Choose the level of engagement that suits your project needs.</p>
+                        <TypingText
+                            className="mt-4 text-slate-600 dark:text-slate-400 min-h-[24px]"
+                            text="Choose the level of engagement that suits your project needs."
+                        />
                     </div>
                     <div className="grid max-w-lg grid-cols-1 gap-8 mx-auto lg:max-w-none lg:grid-cols-3 lg:items-start">
                         {/* Tier 1 */}
