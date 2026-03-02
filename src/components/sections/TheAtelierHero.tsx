@@ -81,7 +81,7 @@ export function TheAtelierHero() {
 
                 {/* Hero Content */}
                 <div className="relative z-10 text-center max-w-4xl px-6">
-                    <h1 ref={titleRef} className="font-display font-semibold text-5xl md:text-7xl lg:text-[5rem] text-white leading-[1.1] tracking-tight mb-6 opacity-0 md:opacity-100">
+                    <h1 ref={titleRef} className="font-display font-semibold text-5xl md:text-7xl lg:text-[5rem] text-white leading-[1.1] tracking-tight mb-6 max-md:opacity-100 md:opacity-0">
                         Crafting Legacies in <br /><span className="italic">Concrete &amp; Light</span>
                     </h1>
                     <TypingText

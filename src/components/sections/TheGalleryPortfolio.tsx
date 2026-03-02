@@ -37,7 +37,7 @@ export function TheGalleryPortfolio() {
                 // Project 2 (Middle) - flies in from top (behind navbar/padding)
                 .fromTo('.project-top',
                     { y: '-100vh', opacity: 0 },
-                    { y: 0, opacity: 1, ease: 'power2.out' },
+                    { y: -3, opacity: 1, ease: 'power2.out' },
                     0
                 )
                 // Project 3 (Right) - flies in from right
@@ -45,6 +45,31 @@ export function TheGalleryPortfolio() {
                     { x: '100vw', opacity: 0 },
                     { x: 0, opacity: 1, ease: 'power2.out' },
                     0
+                );
+
+            // Hide project 4 and 5 initially so they don't render before it's their turn
+            gsap.set(['.project-4-inner', '.project-5-inner'], { x: '100vw', opacity: 0 });
+
+            // Second lock sequence for next 2 projects
+            const tl2 = gsap.timeline({
+                scrollTrigger: {
+                    trigger: '.project-4',
+                    start: "top 20%", // Lock when 2nd row is closer to top, forcing more downward scroll
+                    end: "+=1500",
+                    scrub: 1,
+                    pin: sectionRef.current,
+                    pinnedContainer: sectionRef.current, // CRITICAL: Accounts for the first pin offset
+                    anticipatePin: 1
+                }
+            });
+
+            // Project 4 slides in from right
+            tl2.to('.project-4-inner',
+                { x: 0, opacity: 1, ease: 'power2.out' }
+            )
+                // Project 5 slides in from right SEQUENTIALLY after Project 4
+                .to('.project-5-inner',
+                    { x: 0, opacity: 1, ease: 'power2.out' }
                 );
 
             // Regular fade up for remaining projects (triggered when scrolling down after unpin)
@@ -153,20 +178,24 @@ export function TheGalleryPortfolio() {
                     </div>
 
                     {/* Project 4 */}
-                    <div className="gallery-other-item col-span-1 lg:col-span-1 relative group rounded-xl overflow-hidden shadow-sm aspect-square lg:aspect-auto lg:h-full cursor-pointer">
-                        <img alt="Luxury bathroom interior" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBFh7LKOeTBHMnHDHTj4eQHdVnKNiRubTIY3eyajjlfMDkMkxU8xWn2Ikd5wvU_2QBR_w0spsDl0B2s4k8H70l1uYgkz0g1zco94x8xcFaYiGke1bUNBB3pIe5KyR8F_xYEXC-dFmqjnf4FgFNjSt6vPwwaD1HEuVs0Lu1s-AW_Nd7mn7KI1aFXxQSsfTV2iMZN1Bxsni1vJ-X_mw8GD3Pl8INo0x-9kCBmjc-NPlL085617GiNe_BHPinJClDPjNdISYJt5t3gwdc" />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-90"></div>
-                        <div className="absolute bottom-0 left-0 p-4">
-                            <h3 className="text-white font-display text-sm md:text-xl drop-shadow-lg">Oasis Spa</h3>
+                    <div className="project-4 col-span-1 lg:col-span-1 relative group rounded-xl overflow-hidden shadow-sm aspect-square lg:aspect-auto lg:h-full cursor-pointer">
+                        <div className="project-4-inner w-full h-full relative">
+                            <img alt="Luxury bathroom interior" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBFh7LKOeTBHMnHDHTj4eQHdVnKNiRubTIY3eyajjlfMDkMkxU8xWn2Ikd5wvU_2QBR_w0spsDl0B2s4k8H70l1uYgkz0g1zco94x8xcFaYiGke1bUNBB3pIe5KyR8F_xYEXC-dFmqjnf4FgFNjSt6vPwwaD1HEuVs0Lu1s-AW_Nd7mn7KI1aFXxQSsfTV2iMZN1Bxsni1vJ-X_mw8GD3Pl8INo0x-9kCBmjc-NPlL085617GiNe_BHPinJClDPjNdISYJt5t3gwdc" />
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-90"></div>
+                            <div className="absolute bottom-0 left-0 p-4">
+                                <h3 className="text-white font-display text-sm md:text-xl drop-shadow-lg">Oasis Spa</h3>
+                            </div>
                         </div>
                     </div>
 
                     {/* Project 5 */}
-                    <div className="gallery-other-item col-span-1 lg:col-span-1 relative group rounded-xl overflow-hidden shadow-sm aspect-square lg:aspect-auto lg:h-full cursor-pointer">
-                        <img alt="Corporate office interior" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuATWJRomU3FKnd7BpBjV4C81LodLlly3qLuow2gYIkWiHAEucyTet7UqAMJN4fQf0wjyIOO7RyjRl0ukdkDAxeJkQPT2Jq4zHmzpp1nt767gV4D13fxvhchsSyy_4LvmifQoze-P7aTcqWM66C4PmW07kCrLapIc_BeHmwJ3-fdBLhMptoLnJVYGr1O07bpHaRKuOfgmZ7kjYbdbldyk3UerAnE0RQldW3KyE4-q0gw9YN49YNcnGMalDirAIqr_K5Tkmt6grmlqfc" />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-90"></div>
-                        <div className="absolute bottom-0 left-0 p-4">
-                            <h3 className="text-white font-display text-sm md:text-xl drop-shadow-lg">Apex HQ</h3>
+                    <div className="project-5 col-span-1 lg:col-span-1 relative group rounded-xl overflow-hidden shadow-sm aspect-square lg:aspect-auto lg:h-full cursor-pointer">
+                        <div className="project-5-inner w-full h-full relative">
+                            <img alt="Corporate office interior" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuATWJRomU3FKnd7BpBjV4C81LodLlly3qLuow2gYIkWiHAEucyTet7UqAMJN4fQf0wjyIOO7RyjRl0ukdkDAxeJkQPT2Jq4zHmzpp1nt767gV4D13fxvhchsSyy_4LvmifQoze-P7aTcqWM66C4PmW07kCrLapIc_BeHmwJ3-fdBLhMptoLnJVYGr1O07bpHaRKuOfgmZ7kjYbdbldyk3UerAnE0RQldW3KyE4-q0gw9YN49YNcnGMalDirAIqr_K5Tkmt6grmlqfc" />
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-90"></div>
+                            <div className="absolute bottom-0 left-0 p-4">
+                                <h3 className="text-white font-display text-sm md:text-xl drop-shadow-lg">Apex HQ</h3>
+                            </div>
                         </div>
                     </div>
 

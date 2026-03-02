@@ -50,9 +50,9 @@ export function TestimonialsCta() {
                             />
 
                             <div className="flex flex-col md:flex-row w-full gap-3 md:justify-center md:max-w-md">
-                                <button className="bg-gold hover:bg-[#c5a02e] text-white px-8 py-3.5 rounded font-bold text-sm transition-colors shadow-sm w-full">
+                                <Link href="/book" className="bg-gold hover:bg-[#c5a02e] text-white px-8 py-3.5 rounded font-bold text-sm transition-colors shadow-sm w-full text-center">
                                     Book Consultation
-                                </button>
+                                </Link>
                                 <Link
                                     href="/contact"
                                     className="bg-[#1e293b] hover:bg-[#334155] border border-slate-700 text-white px-8 py-3.5 rounded font-bold text-sm transition-colors w-full text-center flex items-center justify-center"

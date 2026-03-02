@@ -63,7 +63,7 @@ export function GradientText({
     return (
         <Component
             ref={textRef}
-            className={cn(className, "opacity-0 md:opacity-100")}
+            className={cn(className, "max-md:opacity-100 md:opacity-0")}
         >
             {text}
         </Component>

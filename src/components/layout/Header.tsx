@@ -44,7 +44,7 @@ export function Header() {
     }
   }, [isMobileMenuOpen]);
 
-  const isForceScrolled = pathname === "/contact";
+  const isForceScrolled = pathname === "/contact" || pathname === "/book";
   const navClasses = isScrolled || isForceScrolled ? "scrolled-nav" : "transparent-nav";
 
   return (
@@ -63,9 +63,9 @@ export function Header() {
         </div>
 
         <div className="flex items-center gap-4">
-          <button className="hidden md:flex bg-gold hover:bg-[#c5a02e] text-slate-900 px-6 py-3 rounded font-bold text-sm tracking-wide transition-colors">
+          <Link href="/book" className="hidden md:flex bg-gold hover:bg-[#c5a02e] text-slate-900 px-6 py-3 rounded font-bold text-sm tracking-wide transition-colors">
             Book Consultation
-          </button>
+          </Link>
           <button
             className="md:hidden text-inherit menu-icon"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
@@ -85,9 +85,9 @@ export function Header() {
         <Link href="/#craft" onClick={() => setIsMobileMenuOpen(false)} className="text-slate-900 text-sm font-medium uppercase tracking-[0.15em] hover:text-gold transition-colors">The Craft</Link>
         <Link href="/#gallery" onClick={() => setIsMobileMenuOpen(false)} className="text-slate-900 text-sm font-medium uppercase tracking-[0.15em] hover:text-gold transition-colors">The Gallery</Link>
         <Link href="/#blueprint" onClick={() => setIsMobileMenuOpen(false)} className="text-slate-900 text-sm font-medium uppercase tracking-[0.15em] hover:text-gold transition-colors">The Blueprint</Link>
-        <button className="w-full bg-gold hover:bg-[#c5a02e] text-slate-900 px-6 py-3 rounded font-bold text-sm tracking-wide transition-colors mt-2">
+        <Link href="/book" className="w-full text-center bg-gold hover:bg-[#c5a02e] text-slate-900 px-6 py-3 rounded font-bold text-sm tracking-wide transition-colors mt-2">
           Book Consultation
-        </button>
+        </Link>
       </div>
     </nav>
   );
