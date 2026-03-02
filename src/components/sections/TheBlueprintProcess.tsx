@@ -17,6 +17,37 @@ export function TheBlueprintProcess() {
     const [isFinishGradeOpen, setIsFinishGradeOpen] = useState(false);
     const finishGradeRef = useRef<HTMLDivElement>(null);
 
+    // ── Save-Estimate Modal ──────────────────────────────────────────────
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [modalName, setModalName] = useState("");
+    const [modalEmail, setModalEmail] = useState("");
+    const [modalWhatsapp, setModalWhatsapp] = useState("");
+    const [modalPdfCopy, setModalPdfCopy] = useState(false);
+    const [modalConsultantCall, setModalConsultantCall] = useState(false);
+    const [isModalSubmitted, setIsModalSubmitted] = useState(false);
+    const modalPanelRef = useRef<HTMLDivElement>(null);
+    const modalBackdropRef = useRef<HTMLDivElement>(null);
+
+    const closeModal = () => {
+        if (modalPanelRef.current && modalBackdropRef.current) {
+            gsap.to(modalPanelRef.current, { scale: 0.93, opacity: 0, duration: 0.22, ease: "power2.in" });
+            gsap.to(modalBackdropRef.current, {
+                opacity: 0, duration: 0.25, ease: "power2.in",
+                onComplete: () => {
+                    setIsModalOpen(false);
+                    setIsModalSubmitted(false);
+                    setModalName("");
+                    setModalEmail("");
+                    setModalWhatsapp("");
+                    setModalPdfCopy(false);
+                    setModalConsultantCall(false);
+                }
+            });
+        } else {
+            setIsModalOpen(false);
+            setIsModalSubmitted(false);
+        }
+    };
     const projectTypes = ["Residential Renovation", "New Build", "Commercial Fit-out"];
     const finishGrades = ["Premium", "Standard", "Luxury Bespoke"];
 
@@ -34,6 +65,30 @@ export function TheBlueprintProcess() {
             document.removeEventListener("mousedown", handleClickOutside);
         };
     }, []);
+
+    // Lock body scroll while modal is open
+    useEffect(() => {
+        if (isModalOpen) {
+            document.body.style.overflow = "hidden";
+        } else {
+            document.body.style.overflow = "";
+        }
+        return () => { document.body.style.overflow = ""; };
+    }, [isModalOpen]);
+
+    // Enter animation when modal mounts
+    useEffect(() => {
+        if (isModalOpen && modalPanelRef.current && modalBackdropRef.current) {
+            gsap.fromTo(modalBackdropRef.current,
+                { opacity: 0 },
+                { opacity: 1, duration: 0.3, ease: "power2.out" }
+            );
+            gsap.fromTo(modalPanelRef.current,
+                { scale: 0.88, opacity: 0, y: 16 },
+                { scale: 1, opacity: 1, y: 0, duration: 0.38, ease: "back.out(1.4)" }
+            );
+        }
+    }, [isModalOpen]);
 
     const handleStepClick = (step: number) => {
         setActiveStep(activeStep === step ? null : step);
@@ -69,7 +124,7 @@ export function TheBlueprintProcess() {
     return (
         <>
             {/* The Blueprint (Process) */}
-            <section id="blueprint" className="pt-12 pb-4 md:pt-24 md:py-24 bg-canvas dark:bg-slate-900 overflow-hidden">
+            <section id="blueprint" className="pt-12 pb-4 md:pt-24 md:py-24 bg-canvas dark:bg-slate-900 overflow-hidden scroll-mt-20">
                 <div className="max-w-[1440px] mx-auto px-6 md:px-12">
                     <div className="text-center mb-16">
                         <span className="text-gold text-sm font-bold uppercase tracking-widest mb-2 block">Our Methodology</span>
@@ -285,7 +340,10 @@ export function TheBlueprintProcess() {
                         <p className="text-[10px] text-slate-500 dark:text-slate-400 italic mb-6">
                             *Estimate only. Subject to detailed site survey and material selection.
                         </p>
-                        <button className="w-full bg-primary text-slate-900 font-bold py-3 px-4 rounded shadow-sm hover:bg-[#d9ac1b] transition-colors uppercase text-sm tracking-wide">
+                        <button
+                            onClick={() => setIsModalOpen(true)}
+                            className="w-full bg-primary text-slate-900 font-bold py-3 px-4 rounded shadow-sm hover:bg-[#d9ac1b] transition-colors uppercase text-sm tracking-wide"
+                        >
                             Save Estimate
                         </button>
                     </div>
@@ -372,6 +430,187 @@ export function TheBlueprintProcess() {
                     </div>
                 </div>
             </section>
+            {/* ── Save-Estimate Modal ──────────────────────────────────────────── */}
+            {isModalOpen && (
+                <div className="fixed inset-0 z-[200] flex items-center justify-center p-4">
+                    {/* Backdrop */}
+                    <div
+                        ref={modalBackdropRef}
+                        style={{ opacity: 0 }}
+                        className="fixed inset-0 bg-slate-900/45 backdrop-blur-[6px]"
+                        onClick={closeModal}
+                    />
+
+                    {/* Panel — wider, two-column layout */}
+                    <div
+                        ref={modalPanelRef}
+                        style={{ opacity: 0 }}
+                        className="relative w-full max-w-[660px] overflow-hidden rounded-lg bg-white shadow-[0_25px_50px_-12px_rgba(30,41,59,0.28)] will-change-transform"
+                    >
+                        {/* Close */}
+                        <button
+                            onClick={closeModal}
+                            className="absolute right-4 top-4 text-slate-400 hover:text-slate-600 transition-colors z-10"
+                            aria-label="Close"
+                        >
+                            <span className="material-symbols-outlined text-[20px]">close</span>
+                        </button>
+
+                        <div className="grid grid-cols-[1fr_1.15fr]">
+                            {/* ── Left: title + summary ── */}
+                            <div className="flex flex-col justify-center bg-slate-50 border-r border-slate-100 px-6 py-7">
+                                <h2 className="font-display text-2xl font-semibold text-slate-900 mb-4 leading-snug">
+                                    Preserve Your Vision
+                                </h2>
+                                <div className="bg-white rounded-md p-3.5 border border-slate-100 shadow-sm">
+                                    <p className="text-[9px] uppercase tracking-widest text-slate-400 mb-2 font-medium">
+                                        Estimate Summary
+                                    </p>
+                                    <div className="text-[11px] text-slate-600 font-medium mb-2.5 leading-relaxed">
+                                        <span>{area}m²</span>
+                                        <span className="mx-1.5 text-slate-300">·</span>
+                                        <span>{projectType}</span>
+                                        <span className="mx-1.5 text-slate-300">·</span>
+                                        <span>{finishGrade} Grade</span>
+                                    </div>
+                                    <div className="font-display text-base font-bold text-slate-800">
+                                        IDR {estimatedMin}jt – {estimatedMax}jt
+                                    </div>
+                                </div>
+                                <p className="text-[10px] text-slate-400 italic mt-3 leading-relaxed">
+                                    *Subject to site survey & material selection.
+                                </p>
+                            </div>
+
+                            {/* ── Right: form / success ── */}
+                            <div className="px-6 py-7">
+                                {isModalSubmitted ? (
+                                    <div className="flex flex-col items-center justify-center h-full text-center py-4">
+                                        {/* Success icon */}
+                                        <div className="w-14 h-14 rounded-full bg-[#D4AF37]/10 flex items-center justify-center mb-5">
+                                            <span className="material-symbols-outlined text-[32px] text-[#D4AF37]">check_circle</span>
+                                        </div>
+
+                                        <h3 className="font-display text-xl font-semibold text-slate-900 mb-2">
+                                            Estimate Secured!
+                                        </h3>
+                                        <p className="text-sm text-slate-500 leading-relaxed mb-1">
+                                            Thanks, <span className="font-semibold text-slate-700">{modalName || "there"}</span>. We&apos;ve saved your estimate.
+                                        </p>
+                                        <p className="text-xs text-slate-400 leading-relaxed mb-6">
+                                            Our team will be in touch shortly. In the meantime, feel free to reach us directly.
+                                        </p>
+
+                                        {/* WhatsApp CTA */}
+                                        <a
+                                            href={`https://wa.me/6281234567890?text=Halo%2C%20saya%20${encodeURIComponent(modalName)}%20ingin%20konfirmasi%20estimasi%20${area}m%C2%B2%20${encodeURIComponent(projectType)}%20(${encodeURIComponent(finishGrade)}%20Grade)%20senilai%20IDR%20${estimatedMin}jt%20%E2%80%93%20${estimatedMax}jt.`}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="w-full flex items-center justify-center gap-2 rounded bg-[#25D366] py-2.5 text-xs font-bold uppercase tracking-widest text-white hover:bg-[#1fbd59] transition-all mb-3"
+                                        >
+                                            <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+                                            </svg>
+                                            Chat via WhatsApp
+                                        </a>
+
+                                        <button
+                                            onClick={closeModal}
+                                            className="text-xs font-medium text-slate-400 hover:text-slate-600 underline decoration-slate-300 underline-offset-4 transition-colors"
+                                        >
+                                            Close
+                                        </button>
+                                    </div>
+                                ) : (
+                                <form className="space-y-3" onSubmit={(e) => { e.preventDefault(); setIsModalSubmitted(true); }}>
+                                    <div>
+                                        <label className="block text-[10px] font-semibold uppercase tracking-wider text-slate-500 mb-1" htmlFor="modal-name">
+                                            Full Name
+                                        </label>
+                                        <input
+                                            id="modal-name"
+                                            type="text"
+                                            placeholder="e.g. Eleanor Rigby"
+                                            value={modalName}
+                                            onChange={(e) => setModalName(e.target.value)}
+                                            className="block w-full rounded border border-slate-200 bg-white py-2 px-3 text-slate-900 placeholder-slate-400 focus:border-[#D4AF37] focus:ring-1 focus:ring-[#D4AF37] focus:outline-none text-sm transition-colors"
+                                        />
+                                    </div>
+
+                                    <div>
+                                        <label className="block text-[10px] font-semibold uppercase tracking-wider text-slate-500 mb-1" htmlFor="modal-email">
+                                            Email Address
+                                        </label>
+                                        <input
+                                            id="modal-email"
+                                            type="email"
+                                            placeholder="name@example.com"
+                                            value={modalEmail}
+                                            onChange={(e) => setModalEmail(e.target.value)}
+                                            className="block w-full rounded border border-slate-200 bg-white py-2 px-3 text-slate-900 placeholder-slate-400 focus:border-[#D4AF37] focus:ring-1 focus:ring-[#D4AF37] focus:outline-none text-sm transition-colors"
+                                        />
+                                    </div>
+
+                                    <div>
+                                        <label className="block text-[10px] font-semibold uppercase tracking-wider text-slate-500 mb-1" htmlFor="modal-whatsapp">
+                                            WhatsApp Number
+                                        </label>
+                                        <input
+                                            id="modal-whatsapp"
+                                            type="tel"
+                                            placeholder="+62"
+                                            value={modalWhatsapp}
+                                            onChange={(e) => setModalWhatsapp(e.target.value)}
+                                            className="block w-full rounded border border-slate-200 bg-white py-2 px-3 text-slate-900 placeholder-slate-400 focus:border-[#D4AF37] focus:ring-1 focus:ring-[#D4AF37] focus:outline-none text-sm transition-colors"
+                                        />
+                                    </div>
+
+                                    {/* Checkboxes */}
+                                    <div className="space-y-2 pt-0.5">
+                                        <label className="flex items-center gap-2.5 cursor-pointer">
+                                            <input
+                                                type="checkbox"
+                                                checked={modalPdfCopy}
+                                                onChange={(e) => setModalPdfCopy(e.target.checked)}
+                                                className="h-3.5 w-3.5 rounded border-slate-300 text-slate-900 focus:ring-[#D4AF37] cursor-pointer"
+                                            />
+                                            <span className="text-xs text-slate-500">Send a PDF copy to my email</span>
+                                        </label>
+                                        <label className="flex items-center gap-2.5 cursor-pointer">
+                                            <input
+                                                type="checkbox"
+                                                checked={modalConsultantCall}
+                                                onChange={(e) => setModalConsultantCall(e.target.checked)}
+                                                className="h-3.5 w-3.5 rounded border-slate-300 text-slate-900 focus:ring-[#D4AF37] cursor-pointer"
+                                            />
+                                            <span className="text-xs text-slate-500">I would like a consultant to call me</span>
+                                        </label>
+                                    </div>
+
+                                    {/* Submit */}
+                                    <div className="pt-1.5">
+                                        <button
+                                            type="submit"
+                                            className="w-full rounded bg-slate-900 py-2.5 text-xs font-bold uppercase tracking-widest text-[#D4AF37] hover:bg-slate-800 hover:shadow-lg transition-all active:scale-[0.99]"
+                                        >
+                                            Secure This Estimate
+                                        </button>
+                                    </div>
+                                    <div className="mt-3 text-center">
+                                        <button
+                                            onClick={closeModal}
+                                            className="text-xs font-medium text-slate-400 hover:text-slate-600 underline decoration-slate-300 underline-offset-4 transition-colors"
+                                        >
+                                            Back to Calculator
+                                        </button>
+                                    </div>
+                                </form>
+                                )}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
         </>
     );
 }

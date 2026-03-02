@@ -1,11 +1,68 @@
-import type { Metadata } from "next";
+"use client";
 
-export const metadata: Metadata = {
-    title: "Concierge Booking | ArsitekPro",
-    description: "Book an architectural consultation.",
-};
+import { useState, useRef, useEffect } from "react";
+import Link from "next/link";
+import gsap from "gsap";
+
+// Metadata cannot be exported from a Client Component.
+// If SEO is needed here, we'd extract it to a `layout.tsx` or a server component wrapper.
 
 export default function BookPage() {
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [isSubmitted, setIsSubmitted] = useState(false);
+    const [formData, setFormData] = useState({
+        name: "",
+        date: "October 11, 2023", // Default picked date
+        time: "11:30" // Default picked time
+    });
+
+    const successRef = useRef<HTMLDivElement>(null);
+
+    const handleSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+        if (!formData.name.trim()) {
+            // Simple validation fallback
+            setFormData(prev => ({ ...prev, name: "Valued Client" }));
+        }
+        setIsSubmitting(true);
+
+        // Simulate API call
+        setTimeout(() => {
+            setIsSubmitting(false);
+            setIsSubmitted(true);
+        }, 1200);
+    };
+
+    useEffect(() => {
+        if (isSubmitted && successRef.current) {
+            const yOffset = 210; // Adjustment offset (negative moves it up, meaning less scrolling down)
+            const element = successRef.current;
+            const y = element.getBoundingClientRect().top + window.scrollY + yOffset;
+
+            window.scrollTo({ top: y, behavior: 'smooth' });
+
+            const tl = gsap.timeline();
+
+            // Initial flash/expand of the circle
+            tl.fromTo(".success-circle",
+                { scale: 0, opacity: 0 },
+                { scale: 1, opacity: 1, duration: 0.6, ease: "back.out(1.5)" }
+            )
+                // Draw the checkmark
+                .fromTo(".success-check",
+                    { attr: { "stroke-dashoffset": 1 }, opacity: 0 },
+                    { attr: { "stroke-dashoffset": 0 }, opacity: 1, duration: 0.5, ease: "power2.inOut" },
+                    "-=0.2"
+                )
+                // Fade up the text content
+                .fromTo(".success-content",
+                    { y: 30, opacity: 0 },
+                    { y: 0, opacity: 1, duration: 0.6, stagger: 0.1, ease: "power3.out" },
+                    "-=0.1"
+                );
+        }
+    }, [isSubmitted]);
+
     return (
         <>
             <style dangerouslySetInnerHTML={{
@@ -22,6 +79,9 @@ export default function BookPage() {
             background-color: #f8fafc;
         }
         .calendar-day.selected {
+            background-color: #0f172a; color: #D4AF37; font-weight: 700; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+        }
+        .day-radio:checked + .calendar-day {
             background-color: #0f172a; color: #D4AF37; font-weight: 700; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
         }
         .calendar-day.disabled {
@@ -52,7 +112,7 @@ export default function BookPage() {
       `
             }} />
             <div className="flex-grow flex items-center justify-center pt-28 md:pt-28 pb-12 px-4 sm:px-6 lg:px-8 bg-[#F8F9FA] text-slate-900 font-body antialiased min-h-[calc(100vh-80px)]">
-                <div className="w-full max-w-6xl overflow-hidden rounded-lg bg-white shadow-[0_20px_40px_-12px_rgba(30,41,59,0.08)] ring-1 ring-slate-900/5 flex flex-col lg:flex-row min-h-[700px]">
+                <div className="relative w-full max-w-6xl overflow-hidden rounded-lg bg-white shadow-[0_20px_40px_-12px_rgba(30,41,59,0.08)] ring-1 ring-slate-900/5 flex flex-col lg:flex-row min-h-[700px]">
                     <div className="relative w-full lg:w-[40%] bg-slate-900 text-white p-12 flex flex-col justify-between overflow-hidden group">
                         <div className="absolute inset-0 z-0">
                             <img alt="Minimalist Architectural Interior" className="h-full w-full object-cover opacity-40 mix-blend-overlay transition-transform duration-700 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBM3zxJCMpHP1ETJyYbngmq3YlSPifevAa4XRErPNahuUwRhIN1cYUEEs-ybgsyU8Okdy_nceobHsdr3fCurdo-P5L68_5gnbraDRnxbDTIeRKBWw-TNYkkZzf7weKLc-KiplkuCq-5Wgk_KDhyqxJ__G62zoh1P87ajmbCSNSYnlm_5DVmJswoBG-XfT5yP0yKd5FfD38aOHfpfsvcQjB5hTrqm-Gi3onw0YhwM9sQE539tHWTdc94C2nb9R1yVal_ULZihIgr1R0x" />
@@ -145,36 +205,102 @@ export default function BookPage() {
                                 <div className="calendar-grid font-medium text-slate-700">
                                     <span className="calendar-day disabled"></span><span className="calendar-day disabled"></span>
                                     <span className="calendar-day disabled">1</span>
-                                    <span className="calendar-day">2</span>
-                                    <span className="calendar-day">3</span>
-                                    <span className="calendar-day">4</span>
-                                    <span className="calendar-day">5</span>
+                                    <div className="relative">
+                                        <input className="peer sr-only day-radio" id="date-2" name="consultation-date" type="radio" />
+                                        <label className="calendar-day" htmlFor="date-2">2</label>
+                                    </div>
+                                    <div className="relative">
+                                        <input className="peer sr-only day-radio" id="date-3" name="consultation-date" type="radio" />
+                                        <label className="calendar-day" htmlFor="date-3">3</label>
+                                    </div>
+                                    <div className="relative">
+                                        <input className="peer sr-only day-radio" id="date-4" name="consultation-date" type="radio" />
+                                        <label className="calendar-day" htmlFor="date-4">4</label>
+                                    </div>
+                                    <div className="relative">
+                                        <input className="peer sr-only day-radio" id="date-5" name="consultation-date" type="radio" />
+                                        <label className="calendar-day" htmlFor="date-5">5</label>
+                                    </div>
                                     <span className="calendar-day disabled bg-slate-100/50">6</span>
                                     <span className="calendar-day disabled bg-slate-100/50">7</span>
-                                    <span className="calendar-day">8</span>
-                                    <span className="calendar-day">9</span>
-                                    <span className="calendar-day">10</span>
-                                    <span className="calendar-day selected">11</span>
-                                    <span className="calendar-day">12</span>
-                                    <span className="calendar-day">13</span>
+                                    <div className="relative">
+                                        <input className="peer sr-only day-radio" id="date-8" name="consultation-date" type="radio" />
+                                        <label className="calendar-day" htmlFor="date-8">8</label>
+                                    </div>
+                                    <div className="relative">
+                                        <input className="peer sr-only day-radio" id="date-9" name="consultation-date" type="radio" />
+                                        <label className="calendar-day" htmlFor="date-9">9</label>
+                                    </div>
+                                    <div className="relative">
+                                        <input className="peer sr-only day-radio" id="date-10" name="consultation-date" type="radio" />
+                                        <label className="calendar-day" htmlFor="date-10">10</label>
+                                    </div>
+                                    <div className="relative">
+                                        <input className="peer sr-only day-radio" defaultChecked id="date-11" name="consultation-date" type="radio" />
+                                        <label className="calendar-day" htmlFor="date-11">11</label>
+                                    </div>
+                                    <div className="relative">
+                                        <input className="peer sr-only day-radio" id="date-12" name="consultation-date" type="radio" />
+                                        <label className="calendar-day" htmlFor="date-12">12</label>
+                                    </div>
+                                    <div className="relative">
+                                        <input className="peer sr-only day-radio" id="date-13" name="consultation-date" type="radio" />
+                                        <label className="calendar-day" htmlFor="date-13">13</label>
+                                    </div>
                                     <span className="calendar-day disabled bg-slate-100/50">14</span>
                                     <span className="calendar-day disabled bg-slate-100/50">15</span>
-                                    <span className="calendar-day">16</span>
-                                    <span className="calendar-day">17</span>
-                                    <span className="calendar-day">18</span>
-                                    <span className="calendar-day">19</span>
-                                    <span className="calendar-day">20</span>
+                                    <div className="relative">
+                                        <input className="peer sr-only day-radio" id="date-16" name="consultation-date" type="radio" />
+                                        <label className="calendar-day" htmlFor="date-16">16</label>
+                                    </div>
+                                    <div className="relative">
+                                        <input className="peer sr-only day-radio" id="date-17" name="consultation-date" type="radio" />
+                                        <label className="calendar-day" htmlFor="date-17">17</label>
+                                    </div>
+                                    <div className="relative">
+                                        <input className="peer sr-only day-radio" id="date-18" name="consultation-date" type="radio" />
+                                        <label className="calendar-day" htmlFor="date-18">18</label>
+                                    </div>
+                                    <div className="relative">
+                                        <input className="peer sr-only day-radio" id="date-19" name="consultation-date" type="radio" />
+                                        <label className="calendar-day" htmlFor="date-19">19</label>
+                                    </div>
+                                    <div className="relative">
+                                        <input className="peer sr-only day-radio" id="date-20" name="consultation-date" type="radio" />
+                                        <label className="calendar-day" htmlFor="date-20">20</label>
+                                    </div>
                                     <span className="calendar-day disabled bg-slate-100/50">21</span>
                                     <span className="calendar-day disabled bg-slate-100/50">22</span>
-                                    <span className="calendar-day">23</span>
-                                    <span className="calendar-day">24</span>
-                                    <span className="calendar-day">25</span>
-                                    <span className="calendar-day">26</span>
-                                    <span className="calendar-day">27</span>
+                                    <div className="relative">
+                                        <input className="peer sr-only day-radio" id="date-23" name="consultation-date" type="radio" />
+                                        <label className="calendar-day" htmlFor="date-23">23</label>
+                                    </div>
+                                    <div className="relative">
+                                        <input className="peer sr-only day-radio" id="date-24" name="consultation-date" type="radio" />
+                                        <label className="calendar-day" htmlFor="date-24">24</label>
+                                    </div>
+                                    <div className="relative">
+                                        <input className="peer sr-only day-radio" id="date-25" name="consultation-date" type="radio" />
+                                        <label className="calendar-day" htmlFor="date-25">25</label>
+                                    </div>
+                                    <div className="relative">
+                                        <input className="peer sr-only day-radio" id="date-26" name="consultation-date" type="radio" />
+                                        <label className="calendar-day" htmlFor="date-26">26</label>
+                                    </div>
+                                    <div className="relative">
+                                        <input className="peer sr-only day-radio" id="date-27" name="consultation-date" type="radio" />
+                                        <label className="calendar-day" htmlFor="date-27">27</label>
+                                    </div>
                                     <span className="calendar-day disabled bg-slate-100/50">28</span>
                                     <span className="calendar-day disabled bg-slate-100/50">29</span>
-                                    <span className="calendar-day">30</span>
-                                    <span className="calendar-day">31</span>
+                                    <div className="relative">
+                                        <input className="peer sr-only day-radio" id="date-30" name="consultation-date" type="radio" />
+                                        <label className="calendar-day" htmlFor="date-30">30</label>
+                                    </div>
+                                    <div className="relative">
+                                        <input className="peer sr-only day-radio" id="date-31" name="consultation-date" type="radio" />
+                                        <label className="calendar-day" htmlFor="date-31">31</label>
+                                    </div>
                                 </div>
                             </div>
 
@@ -208,11 +334,19 @@ export default function BookPage() {
                                 </div>
                             </div>
 
-                            <form className="space-y-6">
+                            <form className="space-y-6" onSubmit={handleSubmit}>
                                 <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
                                     <div>
                                         <label className="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-2" htmlFor="name">Full Name</label>
-                                        <input className="form-input block w-full rounded border-slate-200 bg-white py-2.5 px-3 text-slate-900 placeholder:text-slate-300 focus:border-slate-900 focus:ring-0 sm:text-sm transition-colors" id="name" placeholder="e.g. Alexander Hamilton" type="text" />
+                                        <input
+                                            className="form-input block w-full rounded border-slate-200 bg-white py-2.5 px-3 text-slate-900 placeholder:text-slate-300 focus:border-slate-900 focus:ring-0 sm:text-sm transition-colors"
+                                            id="name"
+                                            placeholder="e.g. Alexander Hamilton"
+                                            type="text"
+                                            value={formData.name}
+                                            onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                                            required
+                                        />
                                     </div>
                                     <div>
                                         <label className="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-2" htmlFor="whatsapp">WhatsApp Number</label>
@@ -228,9 +362,25 @@ export default function BookPage() {
                                     <textarea className="form-input block w-full rounded border-slate-200 bg-white py-2.5 px-3 text-slate-900 placeholder:text-slate-300 focus:border-slate-900 focus:ring-0 sm:text-sm resize-none transition-colors" id="brief" placeholder="Tell us briefly about your renovation or construction goals..." rows={3}></textarea>
                                 </div>
                                 <div className="pt-4">
-                                    <button className="group relative w-full flex justify-center py-3.5 px-4 border border-transparent text-sm font-bold uppercase tracking-widest text-slate-900 bg-gold hover:bg-[#bfa030] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-900 shadow-md transition-all duration-300" type="button">
-                                        Confirm Consultation
-                                        <span className="material-symbols-outlined ml-2 text-lg group-hover:translate-x-1 transition-transform">arrow_forward</span>
+                                    <button
+                                        className="group relative w-full flex justify-center items-center py-3.5 px-4 border border-transparent text-sm font-bold uppercase tracking-widest text-slate-900 bg-gold hover:bg-[#bfa030] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-900 shadow-md transition-all duration-300 disabled:opacity-70 disabled:cursor-not-allowed"
+                                        type="submit"
+                                        disabled={isSubmitting}
+                                    >
+                                        {isSubmitting ? (
+                                            <>
+                                                <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-slate-900" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                                </svg>
+                                                Processing...
+                                            </>
+                                        ) : (
+                                            <>
+                                                Confirm Consultation
+                                                <span className="material-symbols-outlined ml-2 text-lg group-hover:translate-x-1 transition-transform">arrow_forward</span>
+                                            </>
+                                        )}
                                     </button>
                                     <p className="mt-4 text-center text-xs text-slate-400">
                                         By booking, you agree to our <a className="underline hover:text-slate-600" href="#">Terms of Service</a>. No payment required today.
@@ -239,6 +389,53 @@ export default function BookPage() {
                             </form>
                         </div>
                     </div>
+
+                    {/* Success UI Overlay - Replaces the right side when submitted */}
+                    {isSubmitted && (
+                        <div
+                            ref={successRef}
+                            className="absolute top-0 right-0 w-full lg:w-[60%] h-full bg-white z-20 flex flex-col items-center justify-center p-8 lg:p-12 text-center"
+                        >
+                            <div className="max-w-md w-full flex flex-col items-center">
+                                {/* Animated Checkmark */}
+                                <div className="success-circle relative flex items-center justify-center w-24 h-24 mb-8 rounded-full bg-slate-50 border-2 border-gold/30 shadow-[0_0_40px_-10px_rgba(212,175,55,0.3)]">
+                                    <svg className="w-12 h-12 text-gold" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                                        <path className="success-check" strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" pathLength={1} strokeDasharray={1} strokeDashoffset={1} />
+                                    </svg>
+                                </div>
+
+                                {/* Text Content */}
+                                <div className="success-content space-y-2 mb-8">
+                                    <h3 className="font-display text-3xl font-semibold text-slate-900">Consultation Confirmed</h3>
+                                    <div className="w-12 h-1 bg-gold mx-auto rounded-full my-4"></div>
+                                    <p className="text-slate-600 text-base leading-relaxed">
+                                        Thank you, <span className="font-semibold text-slate-900">{formData.name || "Valued Client"}</span>.
+                                        Your architectural consultation for <span className="font-semibold text-slate-900">{formData.date}</span> at <span className="font-semibold text-slate-900">{formData.time}</span> has been successfully scheduled.
+                                    </p>
+                                    <p className="text-slate-500 text-sm mt-4">
+                                        Our concierge team will review your project brief and reach out via WhatsApp shortly to confirm the setup details.
+                                    </p>
+                                </div>
+
+                                {/* Action Buttons */}
+                                <div className="success-content w-full space-y-3 mt-4">
+                                    <Link
+                                        href="/"
+                                        className="group relative w-full flex items-center justify-center py-3.5 px-4 rounded border border-slate-200 text-sm font-bold uppercase tracking-widest text-slate-900 bg-white hover:bg-slate-50 hover:border-slate-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-900 transition-all duration-300 shadow-sm"
+                                    >
+                                        <span className="material-symbols-outlined mr-2 text-lg group-hover:-translate-x-1 transition-transform">arrow_back</span>
+                                        Return to Home
+                                    </Link>
+                                    <button
+                                        onClick={() => setIsSubmitted(false)}
+                                        className="text-xs font-semibold text-slate-400 hover:text-slate-600 uppercase tracking-wider transition-colors pt-2"
+                                    >
+                                        Book Another Session
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    )}
                 </div>
             </div>
         </>

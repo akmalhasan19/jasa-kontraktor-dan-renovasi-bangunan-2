@@ -44,8 +44,19 @@ export function Header() {
     }
   }, [isMobileMenuOpen]);
 
-  const isForceScrolled = pathname === "/contact" || pathname === "/book";
+  const isForceScrolled = pathname === "/contact" || pathname === "/book" || pathname === "/gallery";
   const navClasses = isScrolled || isForceScrolled ? "scrolled-nav" : "transparent-nav";
+
+  // When on a page other than home, use /?scrollTo= so the home page can
+  // mount first (showing The Atelier) and then scroll to the target section.
+  // Exception: The Gallery section has its own dedicated /gallery page.
+  const isOnHomePage = pathname === "/";
+  const isOnGalleryPage = pathname === "/gallery";
+  const sectionHref = (id: string) => {
+    if (id === "gallery" && !isOnGalleryPage) return "/gallery";
+    if (isOnHomePage) return `/#${id}`;
+    return `/?scrollTo=${id}`;
+  };
 
   return (
     <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${navClasses}`}>
@@ -56,10 +67,10 @@ export function Header() {
         </div>
 
         <div className="hidden md:flex items-center gap-10">
-          <Link href="/#atelier" className="nav-link text-sm font-medium uppercase tracking-[0.15em] hover:text-gold transition-colors">The Atelier</Link>
-          <Link href="/#craft" className="nav-link text-sm font-medium uppercase tracking-[0.15em] hover:text-gold transition-colors">The Craft</Link>
-          <Link href="/#gallery" className="nav-link text-sm font-medium uppercase tracking-[0.15em] hover:text-gold transition-colors">The Gallery</Link>
-          <Link href="/#blueprint" className="nav-link text-sm font-medium uppercase tracking-[0.15em] hover:text-gold transition-colors">The Blueprint</Link>
+          <Link href={sectionHref("atelier")} className="nav-link text-sm font-medium uppercase tracking-[0.15em] hover:text-gold transition-colors">The Atelier</Link>
+          <Link href={sectionHref("craft")} className="nav-link text-sm font-medium uppercase tracking-[0.15em] hover:text-gold transition-colors">The Craft</Link>
+          <Link href={sectionHref("gallery")} className={`nav-link text-sm font-medium uppercase tracking-[0.15em] hover:text-gold transition-colors ${isOnGalleryPage ? "text-gold" : ""}`}>The Gallery</Link>
+          <Link href={sectionHref("blueprint")} className="nav-link text-sm font-medium uppercase tracking-[0.15em] hover:text-gold transition-colors">The Blueprint</Link>
         </div>
 
         <div className="flex items-center gap-4">
@@ -81,10 +92,10 @@ export function Header() {
         className="md:hidden absolute top-full left-0 right-0 bg-white border-t border-slate-200 shadow-lg py-4 px-6 flex-col gap-4 opacity-0 hidden"
         style={{ transform: "translateY(-20px)" }}
       >
-        <Link href="/#atelier" onClick={() => setIsMobileMenuOpen(false)} className="text-slate-900 text-sm font-medium uppercase tracking-[0.15em] hover:text-gold transition-colors">The Atelier</Link>
-        <Link href="/#craft" onClick={() => setIsMobileMenuOpen(false)} className="text-slate-900 text-sm font-medium uppercase tracking-[0.15em] hover:text-gold transition-colors">The Craft</Link>
-        <Link href="/#gallery" onClick={() => setIsMobileMenuOpen(false)} className="text-slate-900 text-sm font-medium uppercase tracking-[0.15em] hover:text-gold transition-colors">The Gallery</Link>
-        <Link href="/#blueprint" onClick={() => setIsMobileMenuOpen(false)} className="text-slate-900 text-sm font-medium uppercase tracking-[0.15em] hover:text-gold transition-colors">The Blueprint</Link>
+        <Link href={sectionHref("atelier")} onClick={() => setIsMobileMenuOpen(false)} className="text-slate-900 text-sm font-medium uppercase tracking-[0.15em] hover:text-gold transition-colors">The Atelier</Link>
+        <Link href={sectionHref("craft")} onClick={() => setIsMobileMenuOpen(false)} className="text-slate-900 text-sm font-medium uppercase tracking-[0.15em] hover:text-gold transition-colors">The Craft</Link>
+        <Link href={sectionHref("gallery")} onClick={() => setIsMobileMenuOpen(false)} className={`text-sm font-medium uppercase tracking-[0.15em] hover:text-gold transition-colors ${isOnGalleryPage ? "text-gold" : "text-slate-900"}`}>The Gallery</Link>
+        <Link href={sectionHref("blueprint")} onClick={() => setIsMobileMenuOpen(false)} className="text-slate-900 text-sm font-medium uppercase tracking-[0.15em] hover:text-gold transition-colors">The Blueprint</Link>
         <Link href="/book" className="w-full text-center bg-gold hover:bg-[#c5a02e] text-slate-900 px-6 py-3 rounded font-bold text-sm tracking-wide transition-colors mt-2">
           Book Consultation
         </Link>

@@ -5,7 +5,7 @@ import { GradientText } from "@/components/ui/GradientText";
 
 export function TheCraftServices() {
     return (
-        <section id="craft" className="pt-24 pb-8 md:pb-24 bg-surface dark:bg-background-dark">
+        <section id="craft" className="pt-24 pb-8 md:pb-24 bg-surface dark:bg-background-dark scroll-mt-20">
             <div className="max-w-[1440px] mx-auto px-6 md:px-12">
 
                 {/* Page Title */}

@@ -108,7 +108,7 @@ export function TheGalleryPortfolio() {
                             text="A curated selection of our finest architectural and interior masterpieces. Explore the intersection of precision and artistry."
                         />
                     </div>
-                    <Link className="hidden md:inline-flex px-6 py-3 border border-slate-200 dark:border-slate-800 text-slate-900 dark:text-white rounded font-bold text-sm tracking-wide hover:bg-slate-900 hover:text-white dark:hover:bg-white dark:hover:text-slate-900 transition-colors whitespace-nowrap" href="#">
+                    <Link className="hidden md:inline-flex px-6 py-3 border border-slate-200 dark:border-slate-800 text-slate-900 dark:text-white rounded font-bold text-sm tracking-wide hover:bg-slate-900 hover:text-white dark:hover:bg-white dark:hover:text-slate-900 transition-colors whitespace-nowrap" href="/gallery">
                         View Full Portfolio
                     </Link>
                 </div>
@@ -212,9 +212,12 @@ export function TheGalleryPortfolio() {
 
                 {/* Load More Button */}
                 <div className="mt-10 md:mt-16 text-center">
-                    <button className="px-8 py-3 md:py-4 border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-white rounded-full text-sm font-bold tracking-wide uppercase hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors w-full md:w-auto">
+                    <Link
+                        href="/gallery"
+                        className="inline-flex items-center justify-center px-8 py-3 md:py-4 border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-white rounded-full text-sm font-bold tracking-wide uppercase hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors w-full md:w-auto"
+                    >
                         Load More Projects
-                    </button>
+                    </Link>
                 </div>
             </div>
         </section>
