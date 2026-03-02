@@ -5,6 +5,7 @@ import "./globals.css";
 import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
 import { WhatsAppFloatingButton } from "@/components/shared/WhatsAppFloatingButton";
+import { ScrollToTop } from "@/components/shared/ScrollToTop";
 import { BRAND_NAME, COMPANY_INFO, SITE_URL } from "@/lib/constants";
 
 const manrope = Manrope({
@@ -41,6 +42,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" />
       </head>
       <body className="bg-canvas text-slate-800 font-body antialiased selection:bg-gold selection:text-white min-h-screen flex flex-col">
+        <ScrollToTop />
         <Header />
         <main className="flex-grow">{children}</main>
         <Footer />

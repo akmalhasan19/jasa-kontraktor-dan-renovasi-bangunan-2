@@ -18,9 +18,10 @@ export function TestimonialsCta() {
                             <span className="material-symbols-outlined">star</span>
                             <span className="material-symbols-outlined">star</span>
                         </div>
-                        <blockquote className="font-display text-2xl md:text-4xl text-slate-800 dark:text-slate-100 italic leading-snug">
-                            They brought a level of transparency and precision I didn&apos;t think was possible in construction. The finish quality is simply impeccable.
-                        </blockquote>
+                        <TypingText
+                            className="font-display text-2xl md:text-4xl text-slate-800 dark:text-slate-100 italic leading-snug min-h-[96px] md:min-h-[144px]"
+                            text="They brought a level of transparency and precision I didn't think was possible in construction. The finish quality is simply impeccable."
+                        />
                     </div>
                     <div className="flex flex-col items-center">
                         <cite className="not-italic font-bold text-slate-900 dark:text-white tracking-wide">Alexander H.</cite>

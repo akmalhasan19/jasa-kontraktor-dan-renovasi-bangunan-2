@@ -32,9 +32,10 @@ export function TheCraftServices() {
                         <div className="flex flex-col gap-4">
                             <GradientText as="span" className="text-primary text-xs font-bold tracking-[0.15em] uppercase block" text="01 — Revival" />
                             <GradientText as="h3" className="font-display text-4xl md:text-5xl text-slate-900 dark:text-slate-100 leading-tight" text="Renovation & Remodeling" />
-                            <p className="text-slate-500 dark:text-slate-400 text-base md:text-lg leading-relaxed font-light mt-2">
-                                We breathe new life into existing structures, respecting their history while infusing modern functionality. Our renovation process is meticulous, focusing on structural integrity and aesthetic transformation.
-                            </p>
+                            <TypingText
+                                className="text-slate-500 dark:text-slate-400 text-base md:text-lg leading-relaxed font-light mt-2 min-h-[96px]"
+                                text="We breathe new life into existing structures, respecting their history while infusing modern functionality. Our renovation process is meticulous, focusing on structural integrity and aesthetic transformation."
+                            />
                         </div>
 
                         <ul className="flex flex-col gap-4 border-l border-slate-200 dark:border-slate-800 pl-6 my-2">
@@ -80,35 +81,34 @@ export function TheCraftServices() {
                     {/* Content Left (Order changes on Desktop) */}
                     <div className="flex flex-col gap-8 order-2 lg:order-1">
                         <div className="flex flex-col gap-4">
-                            <span className="text-primary text-xs font-bold tracking-[0.15em] uppercase">02 — Creation</span>
-                            <h3 className="font-display text-4xl md:text-5xl text-slate-900 dark:text-slate-100 leading-tight">
-                                Ground-Up Construction
-                            </h3>
-                            <p className="text-slate-500 dark:text-slate-400 text-base md:text-lg leading-relaxed font-light mt-2">
-                                From the first sketch to the final coat of paint, we manage the entire lifecycle of your new build. We combine architectural vision with engineering precision to create homes that stand the test of time.
-                            </p>
+                            <GradientText as="span" className="text-primary text-xs font-bold tracking-[0.15em] uppercase block" text="02 — Creation" />
+                            <GradientText as="h3" className="font-display text-4xl md:text-5xl text-slate-900 dark:text-slate-100 leading-tight" text="Ground-Up Construction" />
+                            <TypingText
+                                className="text-slate-500 dark:text-slate-400 text-base md:text-lg leading-relaxed font-light mt-2 min-h-[96px]"
+                                text="From the first sketch to the final coat of paint, we manage the entire lifecycle of your new build. We combine architectural vision with engineering precision to create homes that stand the test of time."
+                            />
                         </div>
 
                         <ul className="flex flex-col gap-4 border-l border-slate-200 dark:border-slate-800 pl-6 my-2">
                             <li className="flex items-start gap-3">
                                 <span className="material-symbols-outlined text-primary text-lg mt-0.5">check_circle</span>
                                 <div>
-                                    <strong className="block text-slate-900 dark:text-slate-100 text-sm font-bold tracking-wide uppercase">End-to-End Management</strong>
-                                    <span className="text-slate-500 dark:text-slate-400 text-sm">Permitting, procurement, and project oversight.</span>
+                                    <GradientText as="strong" className="block text-slate-900 dark:text-slate-100 text-sm font-bold tracking-wide uppercase" text="End-to-End Management" />
+                                    <GradientText as="span" className="text-slate-500 dark:text-slate-400 text-sm block" text="Permitting, procurement, and project oversight." delay={0.1} />
                                 </div>
                             </li>
                             <li className="flex items-start gap-3">
                                 <span className="material-symbols-outlined text-primary text-lg mt-0.5">check_circle</span>
                                 <div>
-                                    <strong className="block text-slate-900 dark:text-slate-100 text-sm font-bold tracking-wide uppercase">Sustainable Practices</strong>
-                                    <span className="text-slate-500 dark:text-slate-400 text-sm">Eco-friendly materials and energy-efficient designs.</span>
+                                    <GradientText as="strong" className="block text-slate-900 dark:text-slate-100 text-sm font-bold tracking-wide uppercase" text="Sustainable Practices" />
+                                    <GradientText as="span" className="text-slate-500 dark:text-slate-400 text-sm block" text="Eco-friendly materials and energy-efficient designs." delay={0.1} />
                                 </div>
                             </li>
                             <li className="flex items-start gap-3">
                                 <span className="material-symbols-outlined text-primary text-lg mt-0.5">check_circle</span>
                                 <div>
-                                    <strong className="block text-slate-900 dark:text-slate-100 text-sm font-bold tracking-wide uppercase">Precision Concrete</strong>
-                                    <span className="text-slate-500 dark:text-slate-400 text-sm">Flawless casting and architectural concrete work.</span>
+                                    <GradientText as="strong" className="block text-slate-900 dark:text-slate-100 text-sm font-bold tracking-wide uppercase" text="Precision Concrete" />
+                                    <GradientText as="span" className="text-slate-500 dark:text-slate-400 text-sm block" text="Flawless casting and architectural concrete work." delay={0.1} />
                                 </div>
                             </li>
                         </ul>
@@ -144,35 +144,34 @@ export function TheCraftServices() {
                     {/* Content Right */}
                     <div className="flex flex-col gap-8 order-2">
                         <div className="flex flex-col gap-4">
-                            <span className="text-primary text-xs font-bold tracking-[0.15em] uppercase">03 — Refinement</span>
-                            <h3 className="font-display text-4xl md:text-5xl text-slate-900 dark:text-slate-100 leading-tight">
-                                Interior Fit-Out
-                            </h3>
-                            <p className="text-slate-500 dark:text-slate-400 text-base md:text-lg leading-relaxed font-light mt-2">
-                                The soul of a home lies in its interiors. We collaborate with top artisans to deliver bespoke joinery, intelligent lighting solutions, and curated material palettes that elevate everyday living.
-                            </p>
+                            <GradientText as="span" className="text-primary text-xs font-bold tracking-[0.15em] uppercase block" text="03 — Refinement" />
+                            <GradientText as="h3" className="font-display text-4xl md:text-5xl text-slate-900 dark:text-slate-100 leading-tight" text="Interior Fit-Out" />
+                            <TypingText
+                                className="text-slate-500 dark:text-slate-400 text-base md:text-lg leading-relaxed font-light mt-2 min-h-[96px]"
+                                text="The soul of a home lies in its interiors. We collaborate with top artisans to deliver bespoke joinery, intelligent lighting solutions, and curated material palettes that elevate everyday living."
+                            />
                         </div>
 
                         <ul className="flex flex-col gap-4 border-l border-slate-200 dark:border-slate-800 pl-6 my-2">
                             <li className="flex items-start gap-3">
                                 <span className="material-symbols-outlined text-primary text-lg mt-0.5">check_circle</span>
                                 <div>
-                                    <strong className="block text-slate-900 dark:text-slate-100 text-sm font-bold tracking-wide uppercase">Custom Cabinetry</strong>
-                                    <span className="text-slate-500 dark:text-slate-400 text-sm">Tailor-made wardrobes, kitchens, and vanity units.</span>
+                                    <GradientText as="strong" className="block text-slate-900 dark:text-slate-100 text-sm font-bold tracking-wide uppercase" text="Custom Cabinetry" />
+                                    <GradientText as="span" className="text-slate-500 dark:text-slate-400 text-sm block" text="Tailor-made wardrobes, kitchens, and vanity units." delay={0.1} />
                                 </div>
                             </li>
                             <li className="flex items-start gap-3">
                                 <span className="material-symbols-outlined text-primary text-lg mt-0.5">check_circle</span>
                                 <div>
-                                    <strong className="block text-slate-900 dark:text-slate-100 text-sm font-bold tracking-wide uppercase">Smart Lighting</strong>
-                                    <span className="text-slate-500 dark:text-slate-400 text-sm">Automated systems to set the perfect mood.</span>
+                                    <GradientText as="strong" className="block text-slate-900 dark:text-slate-100 text-sm font-bold tracking-wide uppercase" text="Smart Lighting" />
+                                    <GradientText as="span" className="text-slate-500 dark:text-slate-400 text-sm block" text="Automated systems to set the perfect mood." delay={0.1} />
                                 </div>
                             </li>
                             <li className="flex items-start gap-3">
                                 <span className="material-symbols-outlined text-primary text-lg mt-0.5">check_circle</span>
                                 <div>
-                                    <strong className="block text-slate-900 dark:text-slate-100 text-sm font-bold tracking-wide uppercase">Material Sourcing</strong>
-                                    <span className="text-slate-500 dark:text-slate-400 text-sm">Imported tiles, exotic woods, and designer hardware.</span>
+                                    <GradientText as="strong" className="block text-slate-900 dark:text-slate-100 text-sm font-bold tracking-wide uppercase" text="Material Sourcing" />
+                                    <GradientText as="span" className="text-slate-500 dark:text-slate-400 text-sm block" text="Imported tiles, exotic woods, and designer hardware." delay={0.1} />
                                 </div>
                             </li>
                         </ul>
